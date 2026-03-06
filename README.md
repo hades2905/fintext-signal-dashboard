@@ -69,7 +69,7 @@ flowchart LR
 
 | Top Named Entities | Portfolio Net Sentiment | LLM-Extracted KPIs |
 |:---:|:---:|:---:|
-| ![ner](docs/screenshots/top_entities.png) | ![heatmap](docs/screenshots/portfolio_heatmap.png) | ![edgar](docs/screenshots/edgar_kpi_extraction.png) |
+| ![ner](docs/screenshots/top_entities.png) | ![net sentiment](docs/screenshots/net_sentiment_signal.png) | ![edgar](docs/screenshots/edgar_kpi_extraction.png) |
 
 ---
 

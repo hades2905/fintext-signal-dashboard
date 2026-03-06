@@ -146,8 +146,8 @@ fig_heat.update_layout(
     yaxis=dict(range=[min(net_scores) * 1.4, max(max(net_scores) * 1.4, 10)]),
     height=360, width=560, margin=dict(t=55, b=30),
 )
-write_image(fig_heat, OUT / "portfolio_heatmap.png", scale=2)
-print("Saved portfolio_heatmap.png")
+write_image(fig_heat, OUT / "net_sentiment_signal.png", scale=2)
+print("Saved net_sentiment_signal.png")
 
 # -------------------------------------------------------------------
 # 7. LLM-Extracted KPIs from real EDGAR filings (Qwen2.5-72B)
