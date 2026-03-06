@@ -27,34 +27,36 @@
 
 ```mermaid
 flowchart LR
-    classDef source fill:#1e3a5f,stroke:#4a90d9,color:#e8f4fd
-    classDef model  fill:#1a3a2a,stroke:#4caf50,color:#e8f5e9
-    classDef ui     fill:#3a1a2a,stroke:#e040fb,color:#fce4ec
 
-    subgraph SRC["  Data Sources  "]
-        A("🗞 Yahoo Finance<br/>yfinance"):::source
-        B("🏛 SEC EDGAR<br/>data.sec.gov"):::source
+    subgraph DATA["Data Sources"]
+        A[Yahoo Finance News<br/>yfinance]
+        B[SEC EDGAR Filings<br/>data.sec.gov]
     end
 
-    subgraph NLP["  NLP Pipeline  "]
-        C("🤖 FinBERT<br/>Sentiment Scoring"):::model
-        D("🔍 spaCy NER<br/>Entity Extraction"):::model
-        E("✨ Qwen2.5-72B<br/>Structured Extraction"):::model
+    subgraph NLP["NLP Processing"]
+        C[FinBERT Sentiment<br/>+ spaCy NER]
+        D[Qwen2.5 LLM<br/>Structured Extraction]
     end
 
-    subgraph UI["  Dashboard  "]
-        F("📰 News Sentiment"):::ui
-        G("📂 EDGAR Filings"):::ui
-        H("🏦 Portfolio Monitor"):::ui
+    subgraph OUTPUT["Analytics Layer"]
+        E[Structured Signals<br/>Sentiment · Entities · KPIs]
     end
 
-    A -->|"list[Article]"| C
-    A -->|"list[Article]"| D
-    B -->|"list[EdgarFiling]"| E
-    C --> F
-    C --> H
-    D --> F
+    subgraph UI["Streamlit Dashboard"]
+        F[News Sentiment View]
+        G[EDGAR Filing Analysis]
+        H[Portfolio Monitor]
+    end
+
+    A --> C
+    B --> D
+
+    C --> E
+    D --> E
+
+    E --> F
     E --> G
+    E --> H
 ```
 
 ---
