@@ -27,28 +27,24 @@
 
 ```mermaid
 flowchart LR
-    subgraph Sources["Data Sources"]
-        A["Yahoo Finance\nyfinance"]
-        B["SEC EDGAR\ndata.sec.gov"]
-    end
+    classDef source  fill:#1e3a5f,stroke:#4a90d9,color:#e8f4fd,rx:6
+    classDef model   fill:#1a3a2a,stroke:#4caf50,color:#e8f5e9,rx:6
+    classDef ui      fill:#3a1a2a,stroke:#e040fb,color:#fce4ec,rx:6
 
-    subgraph Pipeline["NLP Pipeline"]
-        C["FinBERT\nSentiment Scoring"]
-        D["spaCy NER\nEntity Extraction"]
-        E["Qwen2.5-72B\nStructured Extraction"]
-    end
+    A("🗞 Yahoo Finance\nyfinance"):::source
+    B("🏛 SEC EDGAR\ndata.sec.gov"):::source
 
-    subgraph UI["Streamlit Dashboard"]
-        F["📰 News Sentiment"]
-        G["📂 EDGAR Filings"]
-        H["🏦 Portfolio Monitor"]
-    end
+    C("🤖 FinBERT\nSentiment Scoring"):::model
+    D("🔍 spaCy NER\nEntity Extraction"):::model
+    E("✨ Qwen2.5-72B\nStructured Extraction"):::model
 
-    A -->|"list[Article]"| C
-    A -->|"list[Article]"| D
-    B -->|"list[EdgarFiling]"| E
-    C --> F
-    C --> H
+    F("📰 News Sentiment"):::ui
+    G("📂 EDGAR Filings"):::ui
+    H("🏦 Portfolio Monitor"):::ui
+
+    A -->|list[Article]| C & D
+    B -->|list[EdgarFiling]| E
+    C --> F & H
     D --> F
     E --> G
 ```
