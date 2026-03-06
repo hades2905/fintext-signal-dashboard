@@ -27,9 +27,9 @@
 
 ```mermaid
 flowchart LR
-    classDef source  fill:#1e3a5f,stroke:#4a90d9,color:#e8f4fd,rx:6
-    classDef model   fill:#1a3a2a,stroke:#4caf50,color:#e8f5e9,rx:6
-    classDef ui      fill:#3a1a2a,stroke:#e040fb,color:#fce4ec,rx:6
+    classDef source fill:#1e3a5f,stroke:#4a90d9,color:#e8f4fd
+    classDef model  fill:#1a3a2a,stroke:#4caf50,color:#e8f5e9
+    classDef ui     fill:#3a1a2a,stroke:#e040fb,color:#fce4ec
 
     A("🗞 Yahoo Finance\nyfinance"):::source
     B("🏛 SEC EDGAR\ndata.sec.gov"):::source
@@ -42,9 +42,9 @@ flowchart LR
     G("📂 EDGAR Filings"):::ui
     H("🏦 Portfolio Monitor"):::ui
 
-    A -->|list[Article]| C
-    A -->|list[Article]| D
-    B -->|list[EdgarFiling]| E
+    A -->|"list[Article]"| C
+    A -->|"list[Article]"| D
+    B -->|"list[EdgarFiling]"| E
     C --> F
     C --> H
     D --> F
