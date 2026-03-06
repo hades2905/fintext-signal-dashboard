@@ -23,6 +23,38 @@
 
 ---
 
+## Architecture
+
+```mermaid
+flowchart LR
+    subgraph Sources["Data Sources"]
+        A["Yahoo Finance\nyfinance"]
+        B["SEC EDGAR\ndata.sec.gov"]
+    end
+
+    subgraph Pipeline["NLP Pipeline"]
+        C["FinBERT\nSentiment Scoring"]
+        D["spaCy NER\nEntity Extraction"]
+        E["Qwen2.5-72B\nStructured Extraction"]
+    end
+
+    subgraph UI["Streamlit Dashboard"]
+        F["📰 News Sentiment"]
+        G["📂 EDGAR Filings"]
+        H["🏦 Portfolio Monitor"]
+    end
+
+    A -->|"list[Article]"| C
+    A -->|"list[Article]"| D
+    B -->|"list[EdgarFiling]"| E
+    C --> F
+    C --> H
+    D --> F
+    E --> G
+```
+
+---
+
 ## Screenshots
 
 | Sentiment Distribution | Sentiment Over Time | Score Distribution |
