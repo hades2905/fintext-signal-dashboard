@@ -156,29 +156,7 @@ All outputs below are fetched from **live APIs** (no mocks). Refresh anytime:
 python examples/fetch_real_data.py
 ```
 
-### Live News Headlines (BX / KKR / APO — 30 articles)
-
-```
-[BX] Blackstone Redemptions Test Liquidity As Shares Trade Below Fair Value
-[BX] Is Blackstone (BX) Now At A Reasonable Price After Recent Share Price Slide
-[BX] Is There Opportunity in Private Credit Stocks or Still Too Much Risk?
-[BX] Blue Owl Stock Has Plunged on Private Credit Fears. This Analyst Says They're Overblown.
-[BX] KKR Co-CEOs Keep Buying the Stock Dip
-[BX] Sector Update: Financial Stocks Advance Pre-Bell Wednesday
-```
-
-### Top Named Entities (spaCy NER · 30 articles)
-
-| Entity | Type | Mentions |
-|---|---|---|
-| KKR | ORG | 8 |
-| Blackstone | ORG | 6 |
-| NYSE | ORG | 5 |
-| Blue Owl Capital | ORG | 2 |
-| Chris Kotowski | PERSON | 2 |
-| Oppenheimer | ORG | 2 |
-
-### Real SEC EDGAR 8-K Filings (fetched from `data.sec.gov`)
+### SEC EDGAR 8-K Filings (fetched from `data.sec.gov`)
 
 **BX — 2026-01-29 (Q4 2025 Earnings)**
 > _"Blackstone Reports Fourth Quarter and Full Year 2025 Results. New York, January 29, 2026: Blackstone (NYSE:BX) today reported its fourth quarter and full year 2025 results. Stephen A. Schwarzman, Chairman and CEO, said, 'Blackstone's extraordinary fourth-quarter results capped a record year for the firm. We delivered again for our limited partners, leading to $71 billion of inflows in the quarter...'"_
@@ -239,16 +217,6 @@ Full example data files are committed to the repo under `examples/data/`:
 **KKR:**
 > _"The overall sentiment for KKR is mixed, leaning slightly negative, as evidenced by a higher proportion of negative headlines, including concerns over technical inflection points in private-credit stocks and record redemptions in Blackstone's private credit fund, which may reflect broader industry challenges. A key opportunity lies in the positive outlook from RBC Capital's initiation of coverage with an outperform call, suggesting potential upside despite current market skepticism. It is recommended to closely monitor KKR's performance in private credit and any further insider buying activity, as these factors could provide early signals of recovery or continued distress."_
 
-### FinBERT Sentiment — real output (`examples/data/news_articles_scored.json`)
-
-```
-[NEGATIVE  2%p] Blackstone Redemptions Test Liquidity As Shares Trade Below Fair Value
-[NEGATIVE  1%p] Is Blackstone (BX) Now At A Reasonable Price After Recent Share Price Slide
-[NEUTRAL  23%p] Is There Opportunity in Private Credit Stocks or Still Too Much Risk?
-[NEGATIVE  1%p] Blue Owl Stock Has Plunged on Private Credit Fears
-[NEUTRAL   5%p] KKR Co-CEOs Keep Buying the Stock Dip
-```
-
 ---
 
 ## Development
@@ -279,57 +247,6 @@ python scripts/generate_screenshots.py
 ```bash
 ruff check .
 ```
-
----
-
-## Project Structure
-
-```
-finbert-news-sentiment/
-├── src/nlp/
-│   ├── schemas.py      # Pydantic models (Article, EdgarFiling, StructuredExtract, …)
-│   ├── fetcher.py      # Yahoo Finance news fetcher
-│   ├── edgar.py        # SEC EDGAR 8-K / 10-K fetcher (no API key)
-│   ├── sentiment.py    # SentimentAnalyser wrapping FinBERT
-│   └── extractor.py    # LLMExtractor – structured JSON extraction via Qwen2.5-72B
-│   └── ner.py          # Named Entity Recognition via spaCy
-├── dashboard/
-│   └── app.py          # Streamlit app (3 tabs: News · EDGAR · Portfolio)
-├── tests/
-│   ├── test_schemas.py
-│   ├── test_sentiment.py
-│   ├── test_fetcher.py
-│   ├── test_edgar.py
-│   ├── test_extractor.py
-│   └── test_integration.py  # 14 live-network tests (pytest -m integration)
-├── examples/
-│   ├── fetch_real_data.py   # Fetch + save real data from yfinance + EDGAR
-│   └── data/
-│       ├── news_articles.json          # 30 real articles with NER annotations
-│       ├── news_articles_scored.json   # same + FinBERT sentiment scores (live)
-│       ├── edgar_filings.json          # 4 real 8-K filings (BX + KKR)
-│       ├── llm_extractions.json        # Qwen2.5-72B structured extracts (live)
-│       ├── investment_briefings.json   # Qwen2.5-72B PM briefings per ticker (live)
-│       ├── news_articles.csv
-│       └── top_entities.json           # Top 20 NER entities by mention count
-├── scripts/
-│   └── generate_screenshots.py  # Regenerate docs/screenshots from real example data
-├── docs/
-│   └── screenshots/    # Static plot previews embedded in README
-├── pyproject.toml
-├── requirements.txt
-└── README.md
-```
-
----
-
-## Limitations
-
-- yfinance news coverage varies by ticker; some non-US tickers return fewer articles.
-- FinBERT truncates input at 512 tokens; long articles are analysed based on the first ~400 words.
-- spaCy `en_core_web_sm` is optimised for English; non-English text may produce lower NER quality.
-- LLM extraction quality depends on filing structure; very short or boilerplate 8-Ks may yield sparse extracts.
-- EDGAR rate limit: 10 requests/second (built-in 150ms sleep between calls).
 
 ---
 
