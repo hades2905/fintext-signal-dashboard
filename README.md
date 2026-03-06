@@ -63,13 +63,13 @@ flowchart LR
 
 ## Screenshots
 
-| Sentiment Distribution | Sentiment Over Time | Score Distribution |
+| Sentiment by Ticker | Sentiment Over Time | Score Distribution |
 |:---:|:---:|:---:|
-| ![pie](docs/screenshots/sentiment_pie.png) | ![timeline](docs/screenshots/sentiment_timeline.png) | ![dist](docs/screenshots/score_distribution.png) |
+| ![ticker](docs/screenshots/sentiment_by_ticker.png) | ![timeline](docs/screenshots/sentiment_timeline.png) | ![dist](docs/screenshots/score_distribution.png) |
 
-| By Ticker | Portfolio Heatmap | LLM-Extracted KPIs |
+| Top Named Entities | Portfolio Net Sentiment | LLM-Extracted KPIs |
 |:---:|:---:|:---:|
-| ![ticker](docs/screenshots/sentiment_by_ticker.png) | ![heatmap](docs/screenshots/portfolio_heatmap.png) | ![edgar](docs/screenshots/edgar_kpi_extraction.png) |
+| ![ner](docs/screenshots/top_entities.png) | ![heatmap](docs/screenshots/portfolio_heatmap.png) | ![edgar](docs/screenshots/edgar_kpi_extraction.png) |
 
 ---
 
@@ -131,7 +131,7 @@ All files in `examples/data/` are generated from live APIs — no mocks. Refresh
 | `edgar_filings.json` | 4 real 8-K filings (BX Q4 2025, KKR Q4 2025, KKR/Arctos) |
 | `llm_extractions.json` | Qwen2.5-72B structured extracts per filing |
 | `investment_briefings.json` | Qwen2.5-72B PM briefings for BX / KKR / APO |
-| `top_entities.json` | Top 20 NER entities by mention count |
+| `top_entities.json` | Top NER entities by mention count (organisations, persons, locations) |
 
 **Sample — KKR / Arctos acquisition extract (`llm_extractions.json`)**
 

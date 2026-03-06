@@ -58,16 +58,18 @@ df = pd.DataFrame(rows)
 # -------------------------------------------------------------------
 # 1. Sentiment distribution pie  (real counts)
 # -------------------------------------------------------------------
-pie_df = df["label"].value_counts().reset_index()
-pie_df.columns = ["label", "count"]
-fig_pie = px.pie(
-    pie_df, names="label", values="count", color="label",
-    color_discrete_map=SENTIMENT_COLORS, hole=0.4,
-    title="Sentiment Distribution — BX / KKR / APO (30 real articles)",
+# 1. Sentiment by ticker (real counts) — replaces pie, primary view
+# -------------------------------------------------------------------
+ticker_df = df.groupby(["ticker", "label"]).size().reset_index(name="count")
+fig_tick = px.bar(
+    ticker_df, x="ticker", y="count", color="label",
+    color_discrete_map=SENTIMENT_COLORS, barmode="group",
+    title="Sentiment by Ticker — BX / KKR / APO (30 real articles)",
+    labels={"ticker": "Ticker", "count": "Articles"},
 )
-fig_pie.update_layout(margin=dict(t=55, b=10), height=380, width=560)
-write_image(fig_pie, OUT / "sentiment_pie.png", scale=2)
-print("Saved sentiment_pie.png")
+fig_tick.update_layout(height=380, width=580, margin=dict(t=55, b=10))
+write_image(fig_tick, OUT / "sentiment_by_ticker.png", scale=2)
+print("Saved sentiment_by_ticker.png")
 
 # -------------------------------------------------------------------
 # 2. Sentiment over time (real dates)
@@ -84,21 +86,7 @@ write_image(fig_time, OUT / "sentiment_timeline.png", scale=2)
 print("Saved sentiment_timeline.png")
 
 # -------------------------------------------------------------------
-# 3. Sentiment by ticker (real counts)
-# -------------------------------------------------------------------
-ticker_df = df.groupby(["ticker", "label"]).size().reset_index(name="count")
-fig_tick = px.bar(
-    ticker_df, x="ticker", y="count", color="label",
-    color_discrete_map=SENTIMENT_COLORS, barmode="group",
-    title="Sentiment by Ticker — BX / KKR / APO",
-    labels={"ticker": "Ticker", "count": "Articles"},
-)
-fig_tick.update_layout(height=380, width=560, margin=dict(t=55, b=10))
-write_image(fig_tick, OUT / "sentiment_by_ticker.png", scale=2)
-print("Saved sentiment_by_ticker.png")
-
-# -------------------------------------------------------------------
-# 4. Score distribution (real confidence scores)
+# 3. Score distribution (real confidence scores)
 # -------------------------------------------------------------------
 fig_box = go.Figure()
 for label, color in SENTIMENT_COLORS.items():
@@ -132,42 +120,31 @@ write_image(fig_ent, OUT / "top_entities.png", scale=2)
 print("Saved top_entities.png")
 
 # -------------------------------------------------------------------
-# 6. Portfolio sentiment heatmap (real FinBERT scores per ticker)
+# 6. Portfolio net-sentiment signal (positive% − negative% per ticker)
 # -------------------------------------------------------------------
 portfolio_tickers = sorted(df["ticker"].unique())
-pos_vals, neg_vals, neu_vals = [], [], []
+net_scores = []
 for tkr in portfolio_tickers:
     sub = df[df["ticker"] == tkr]
     total = len(sub)
-    pos_vals.append(round(100 * (sub["label"] == "positive").sum() / total, 1))
-    neg_vals.append(round(100 * (sub["label"] == "negative").sum() / total, 1))
-    neu_vals.append(round(100 * (sub["label"] == "neutral").sum() / total, 1))
+    pos_pct = 100 * (sub["label"] == "positive").sum() / total
+    neg_pct = 100 * (sub["label"] == "negative").sum() / total
+    net_scores.append(round(pos_pct - neg_pct, 1))
 
-fig_heat = go.Figure()
-fig_heat.add_trace(go.Heatmap(
-    z=[pos_vals], x=portfolio_tickers, y=["Positive %"],
-    colorscale=[[0, "#f0faf0"], [1, "#2ecc71"]],
-    zmin=0, zmax=100,
-    text=[[f"{v:.0f}%" for v in pos_vals]], texttemplate="%{text}",
-    showscale=False,
+bar_colors = [SENTIMENT_COLORS["positive"] if s >= 0 else SENTIMENT_COLORS["negative"] for s in net_scores]
+fig_heat = go.Figure(go.Bar(
+    x=portfolio_tickers,
+    y=net_scores,
+    marker_color=bar_colors,
+    text=[f"{s:+.0f}%" for s in net_scores],
+    textposition="outside",
 ))
-fig_heat.add_trace(go.Heatmap(
-    z=[neg_vals], x=portfolio_tickers, y=["Negative %"],
-    colorscale=[[0, "#fff5f5"], [1, "#e74c3c"]],
-    zmin=0, zmax=100,
-    text=[[f"{v:.0f}%" for v in neg_vals]], texttemplate="%{text}",
-    showscale=False,
-))
-fig_heat.add_trace(go.Heatmap(
-    z=[neu_vals], x=portfolio_tickers, y=["Neutral %"],
-    colorscale=[[0, "#f8f9fa"], [1, "#7f8c8d"]],
-    zmin=0, zmax=100,
-    text=[[f"{v:.0f}%" for v in neu_vals]], texttemplate="%{text}",
-    showscale=False,
-))
+fig_heat.add_hline(y=0, line_dash="dash", line_color="#aaa", line_width=1)
 fig_heat.update_layout(
-    title="Portfolio Sentiment Heatmap — real FinBERT scores",
-    height=320, width=720, margin=dict(t=55, b=10),
+    title="Portfolio Net Sentiment Signal (Positive% − Negative%) — FinBERT",
+    yaxis_title="Net Sentiment (%)",
+    yaxis=dict(range=[min(net_scores) * 1.4, max(max(net_scores) * 1.4, 10)]),
+    height=360, width=560, margin=dict(t=55, b=30),
 )
 write_image(fig_heat, OUT / "portfolio_heatmap.png", scale=2)
 print("Saved portfolio_heatmap.png")
