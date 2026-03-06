@@ -42,9 +42,11 @@ flowchart LR
     G("📂 EDGAR Filings"):::ui
     H("🏦 Portfolio Monitor"):::ui
 
-    A -->|list[Article]| C & D
+    A -->|list[Article]| C
+    A -->|list[Article]| D
     B -->|list[EdgarFiling]| E
-    C --> F & H
+    C --> F
+    C --> H
     D --> F
     E --> G
 ```
