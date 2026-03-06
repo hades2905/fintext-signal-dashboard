@@ -31,16 +31,22 @@ flowchart LR
     classDef model  fill:#1a3a2a,stroke:#4caf50,color:#e8f5e9
     classDef ui     fill:#3a1a2a,stroke:#e040fb,color:#fce4ec
 
-    A("🗞 Yahoo Finance\nyfinance"):::source
-    B("🏛 SEC EDGAR\ndata.sec.gov"):::source
+    subgraph SRC["  Data Sources  "]
+        A("🗞 Yahoo Finance\nyfinance"):::source
+        B("🏛 SEC EDGAR\ndata.sec.gov"):::source
+    end
 
-    C("🤖 FinBERT\nSentiment Scoring"):::model
-    D("🔍 spaCy NER\nEntity Extraction"):::model
-    E("✨ Qwen2.5-72B\nStructured Extraction"):::model
+    subgraph NLP["  NLP Pipeline  "]
+        C("🤖 FinBERT\nSentiment Scoring"):::model
+        D("🔍 spaCy NER\nEntity Extraction"):::model
+        E("✨ Qwen2.5-72B\nStructured Extraction"):::model
+    end
 
-    F("📰 News Sentiment"):::ui
-    G("📂 EDGAR Filings"):::ui
-    H("🏦 Portfolio Monitor"):::ui
+    subgraph UI["  Dashboard  "]
+        F("📰 News Sentiment"):::ui
+        G("📂 EDGAR Filings"):::ui
+        H("🏦 Portfolio Monitor"):::ui
+    end
 
     A -->|"list[Article]"| C
     A -->|"list[Article]"| D
