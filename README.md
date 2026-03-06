@@ -1,138 +1,105 @@
 # Financial Intelligence Dashboard
 
-> **FinBERT sentiment · LLM structured extraction · SEC EDGAR filings · Portfolio monitor — built for alternative assets analysis.**
+> Applied NLP for alternative asset managers — FinBERT sentiment, LLM-structured SEC filing extraction, and portfolio monitoring in a single Streamlit dashboard.
 
-Multi-ticker portfolio scanner and SEC filing analyser targeting the workflows of institutional alternative asset managers (Private Equity, Infrastructure, Real Assets, Private Credit).
-
-Originally designed as a demonstration of applied NLP for the Munich Re GIM Alternative Assets team.
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![Tests](https://img.shields.io/badge/tests-46%20unit%20%7C%2014%20integration-brightgreen)
+![Ruff](https://img.shields.io/badge/lint-ruff%200%20violations-brightgreen)
+![HuggingFace](https://img.shields.io/badge/LLM-Qwen2.5--72B--Instruct-orange)
 
 ---
 
 ## What it does
 
-| Feature | Description |
+| Feature | Detail |
 |---|---|
-| **News Sentiment** | FinBERT classifies live Yahoo Finance news per ticker; spaCy NER extracts entities |
-| **LLM Investment Briefing** | Qwen2.5-72B generates a 3-sentence portfolio-manager brief from headlines |
-| **SEC EDGAR Filing Ingest** | Fetches real 8-K / 10-K from `data.sec.gov` — no API key required |
-| **LLM Structured Extraction** | Extracts IRR, AUM, TVPI, DPI, key risks & opportunities as typed JSON from free text |
-| **Portfolio Monitor** | Batch-scan multiple tickers; colour-coded heatmap of sentiment across holdings |
+| **News Sentiment** | FinBERT scores Yahoo Finance headlines (positive / negative / neutral + confidence) per ticker |
+| **Named Entity Recognition** | spaCy extracts ORG, PERSON, GPE entities from article text |
+| **LLM Investment Briefing** | Qwen2.5-72B synthesises a 3-sentence PM brief from live headlines |
+| **SEC EDGAR Ingest** | Fetches 8-K / 10-K press-release text from `data.sec.gov` — no API key |
+| **LLM Structured Extraction** | Extracts AUM, IRR, TVPI, DPI, risks & opportunities as typed JSON from filing text |
+| **Portfolio Monitor** | Batch-scan multiple tickers; colour-coded sentiment heatmap across holdings |
 | **CSV Export** | All results downloadable for Databricks / Power BI integration |
 
 ---
 
 ## Screenshots
 
-| Sentiment Distribution | Sentiment Over Time |
-|:---:|:---:|
-| ![Sentiment pie](docs/screenshots/sentiment_pie.png) | ![Timeline](docs/screenshots/sentiment_timeline.png) |
+| Sentiment Distribution | Sentiment Over Time | Score Distribution |
+|:---:|:---:|:---:|
+| ![pie](docs/screenshots/sentiment_pie.png) | ![timeline](docs/screenshots/sentiment_timeline.png) | ![dist](docs/screenshots/score_distribution.png) |
 
-| Score Distribution | Sentiment by Ticker |
-|:---:|:---:|
-| ![Score distribution](docs/screenshots/score_distribution.png) | ![By ticker](docs/screenshots/sentiment_by_ticker.png) |
-
-**Portfolio Sentiment Heatmap**
-
-![Portfolio heatmap](docs/screenshots/portfolio_heatmap.png)
-
-**LLM-Extracted Fund KPIs from SEC EDGAR Filings**
-
-![EDGAR KPI extraction](docs/screenshots/edgar_kpi_extraction.png)
-
-**Top Named Entities**
-
-![Top entities](docs/screenshots/top_entities.png)
+| By Ticker | Portfolio Heatmap | LLM-Extracted KPIs |
+|:---:|:---:|:---:|
+| ![ticker](docs/screenshots/sentiment_by_ticker.png) | ![heatmap](docs/screenshots/portfolio_heatmap.png) | ![edgar](docs/screenshots/edgar_kpi_extraction.png) |
 
 ---
 
 ## Quickstart
 
 ```bash
-# 1. Clone
 git clone https://github.com/hades2905/fintext-signal-dashboard
 cd fintext-signal-dashboard
 
-# 2. Create virtual environment
 python -m venv .venv && source .venv/bin/activate
-
-# 3. Install dependencies
 pip install -r requirements.txt
-
-# 4. Download spaCy model
 python -m spacy download en_core_web_sm
 
-# 5. Set your free HuggingFace token (https://huggingface.co/settings/tokens)
-export HF_TOKEN=hf_...
+export HF_TOKEN=hf_...   # free at huggingface.co/settings/tokens
 
-# 6. Run dashboard  (three tabs: 📰 News · 📂 EDGAR · 🏦 Portfolio)
 streamlit run dashboard/app.py
 ```
 
-All data sources are free. Only FinBERT + Qwen2.5-72B require a free HuggingFace token — no billing, no GPU.
+Yahoo Finance and SEC EDGAR require no API key. A free HuggingFace token is the only credential needed — no billing, no local GPU.
 
 ---
 
-## Models
+## Stack
 
-| Task | Model | Backend | Cost |
-|---|---|---|---|
-| Sentiment | [ProsusAI/FinBERT](https://huggingface.co/ProsusAI/finbert) | HuggingFace Inference API | Free tier |
-| Structured Extraction | [Qwen/Qwen2.5-72B-Instruct](https://huggingface.co/Qwen/Qwen2.5-72B-Instruct) | HuggingFace Inference API | Free tier |
-| NER | spaCy `en_core_web_sm` | Local (~12 MB) | Free |
-| News | Yahoo Finance | yfinance | Free |
-| Filings | SEC EDGAR | `data.sec.gov` public API | Free |
+| Component | Model / Library |
+|---|---|
+| Sentiment | [ProsusAI/FinBERT](https://huggingface.co/ProsusAI/finbert) — fine-tuned on 10 k financial sentences |
+| Structured extraction | [Qwen/Qwen2.5-72B-Instruct](https://huggingface.co/Qwen/Qwen2.5-72B-Instruct) via HF Inference API |
+| NER | spaCy `en_core_web_sm` (local, ~12 MB) |
+| News | yfinance (Yahoo Finance) |
+| Filings | SEC EDGAR `data.sec.gov` public API |
+| UI | Streamlit · Plotly |
+| Validation | Pydantic v2 |
 
 ---
 
-## Supported Tickers (EDGAR)
+## Supported Tickers
 
 | Ticker | Company | Strategy |
 |---|---|---|
-| BX | Blackstone Inc. | PE / RE / Credit / Infra |
+| BX | Blackstone | PE / RE / Credit / Infra |
 | KKR | KKR & Co. | PE / Credit / Infra |
 | APO | Apollo Global Management | PE / Credit |
 | ARES | Ares Management | Credit / PE / RE |
 | CG | Carlyle Group | PE / Credit / RE |
 | BAM | Brookfield Asset Management | Infra / RE / PE |
 
-Any other ticker is supported via Yahoo Finance news. CIK auto-lookup handles unknown EDGAR tickers.
+Any ticker symbol works via Yahoo Finance news. CIK auto-lookup handles unknown EDGAR tickers.
 
 ---
 
 ## Real Example Data
 
-All outputs below are fetched from **live APIs** (no mocks). Refresh anytime:
+All files in `examples/data/` are generated from live APIs — no mocks. Refresh with `python examples/fetch_real_data.py`.
 
-```bash
-python examples/fetch_real_data.py
-```
+| File | Contents |
+|---|---|
+| `news_articles_scored.json` | 30 articles (BX / KKR / APO) + FinBERT scores |
+| `edgar_filings.json` | 4 real 8-K filings (BX Q4 2025, KKR Q4 2025, KKR/Arctos) |
+| `llm_extractions.json` | Qwen2.5-72B structured extracts per filing |
+| `investment_briefings.json` | Qwen2.5-72B PM briefings for BX / KKR / APO |
+| `top_entities.json` | Top 20 NER entities by mention count |
 
-### Example data (`examples/data/`)
-- `news_articles.json` — 30 real articles with NER annotations
-- `news_articles_scored.json` — same + FinBERT sentiment scores per article
-- `edgar_filings.json` — 4 real 8-K filings (BX + KKR) with press-release text
-- `llm_extractions.json` — Qwen2.5-72B structured extracts from each filing
-- `investment_briefings.json` — Qwen2.5-72B PM briefings for BX / KKR / APO
-- `top_entities.json` — top 20 named entities by mention count
+**Sample — KKR / Arctos acquisition extract (`llm_extractions.json`)**
 
-### LLM Structured Extract — real output (Qwen2.5-72B · `examples/data/llm_extractions.json`)
-
-**BX — Q4 2025 Earnings (2026-01-29)**
-```json
-{
-  "fund_or_entity_name": "Blackstone",
-  "geography": "Global",
-  "aum_bn_usd": 1300.0,
-  "overall_sentiment": "positive",
-  "investment_summary": "Blackstone's strong performance in Q4 2025, with record inflows and a focus on large-scale investments in digital and energy infrastructure, positions it well for continued growth."
-}
-```
-
-**KKR — Arctos Acquisition (2026-02-05)**
 ```json
 {
   "fund_or_entity_name": "Arctos Partners",
-  "strategy": "Other",
   "geography": "North America",
   "aum_bn_usd": 15.0,
   "vintage_year": 2019,
@@ -146,42 +113,29 @@ python examples/fetch_real_data.py
 }
 ```
 
-### Investment Briefing — real output (Qwen2.5-72B · `examples/data/investment_briefings.json`)
-
-**BX:**
-> _"The overall sentiment for Blackstone (BX) is decidedly negative, as evidenced by multiple headlines highlighting issues such as redemptions testing liquidity, shares trading below fair value, and significant price slides, which overshadow the few neutral updates on sector performance and leadership actions. A key risk identified is the potential for further liquidity constraints and valuation pressures in BX's private credit and real estate portfolios, particularly given the company's recent challenges in Asia and ongoing market skepticism. It is recommended to closely monitor BX's quarterly earnings reports and any updates on redemption activities, as well as to assess the broader implications of these risks on the alternative asset management sector."_
-
-**KKR:**
-> _"The overall sentiment for KKR is mixed, leaning slightly negative, as evidenced by a higher proportion of negative headlines, including concerns over technical inflection points in private-credit stocks and record redemptions in Blackstone's private credit fund, which may reflect broader industry challenges. A key opportunity lies in the positive outlook from RBC Capital's initiation of coverage with an outperform call, suggesting potential upside despite current market skepticism. It is recommended to closely monitor KKR's performance in private credit and any further insider buying activity, as these factors could provide early signals of recovery or continued distress."_
-
 ---
 
 ## Development
 
-### Run tests
-
 ```bash
-# Unit tests (offline, no network, ~7 s)
+# Unit tests — fully offline, all HTTP mocked (~7 s)
 pytest -m "not integration"
 
-# Integration tests (live yfinance + EDGAR, ~60 s)
+# Integration tests — live EDGAR + Yahoo Finance (~60 s)
 pytest -m integration -v
 
-# All tests + coverage
-pytest --cov=src --cov-report=term-missing
+ruff check .
 ```
-
-Unit tests run fully offline (all HTTP mocked). Integration tests hit live EDGAR + Yahoo Finance.
 
 ---
 
-## Relevance to Alternative Asset Management
+## Use Cases
 
-This project is directly applicable to the following institutional workflows:
-
-- **Automated GP letter / fund update ingestion** – LLM extracts fund KPIs without manual reading
-- **Portfolio monitoring** – batch sentiment scan of portfolio companies identifies emerging risks
-- **Regulatory filing surveillance** – 8-K monitoring for material events in portfolio holdings
-- **Quantitative research** – sentiment scores as factor signals for allocation models
+| Workflow | How this project applies |
+|---|---|
+| GP letter / fund update ingestion | LLM extracts AUM, IRR, DPI, TVPI without manual reading |
+| Portfolio monitoring | Batch sentiment scan identifies emerging risks across holdings |
+| Filing surveillance | 8-K monitoring surfaces material events in portfolio companies |
+| Quantitative research | FinBERT scores as alpha signals for allocation models |
 
 
