@@ -32,14 +32,14 @@ flowchart LR
     classDef ui     fill:#3a1a2a,stroke:#e040fb,color:#fce4ec
 
     subgraph SRC["  Data Sources  "]
-        A("🗞 Yahoo Finance\nyfinance"):::source
-        B("🏛 SEC EDGAR\ndata.sec.gov"):::source
+        A("🗞 Yahoo Finance<br/>yfinance"):::source
+        B("🏛 SEC EDGAR<br/>data.sec.gov"):::source
     end
 
     subgraph NLP["  NLP Pipeline  "]
-        C("🤖 FinBERT\nSentiment Scoring"):::model
-        D("🔍 spaCy NER\nEntity Extraction"):::model
-        E("✨ Qwen2.5-72B\nStructured Extraction"):::model
+        C("🤖 FinBERT<br/>Sentiment Scoring"):::model
+        D("🔍 spaCy NER<br/>Entity Extraction"):::model
+        E("✨ Qwen2.5-72B<br/>Structured Extraction"):::model
     end
 
     subgraph UI["  Dashboard  "]
