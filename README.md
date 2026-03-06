@@ -21,16 +21,6 @@ Originally designed as a demonstration of applied NLP for the Munich Re GIM Alte
 
 ---
 
-## Demo
-
-```bash
-streamlit run dashboard/app.py
-```
-
-Three tabs: **📰 News Sentiment** · **📂 SEC EDGAR Filings** · **🏦 Portfolio Monitor**
-
----
-
 ## Screenshots
 
 | Sentiment Distribution | Sentiment Over Time |
@@ -55,43 +45,6 @@ Three tabs: **📰 News Sentiment** · **📂 SEC EDGAR Filings** · **🏦 Port
 
 ---
 
-## Architecture
-
-```
-Yahoo Finance (yfinance)          SEC EDGAR (data.sec.gov)
-        │                                  │
-        ▼  list[Article]                   ▼  list[EdgarFiling]
- ┌─────────────────┐              ┌──────────────────────┐
- │    fetcher.py   │              │      edgar.py         │
- │  fetch_news()   │              │  fetch_filings()      │
- └────────┬────────┘              └────────┬─────────────┘
-          │                                │
-          ▼                                ▼
- ┌──────────────────────────┐    ┌──────────────────────────────┐
- │  sentiment.py            │    │  extractor.py – LLMExtractor  │
- │  ProsusAI/FinBERT        │    │  Qwen2.5-72B-Instruct         │
- │  → pos / neg / neutral   │    │  → StructuredExtract (JSON)   │
- │    + confidence scores   │    │    IRR · AUM · TVPI · DPI     │
- └────────┬─────────────────┘    │    risks · opportunities      │
-          │                      │    + investment_summary()     │
-          ▼                      └────────────┬─────────────────┘
- ┌─────────────────────────────┐              │
- │  ner.py – spaCy NER         │              │
- │  → ORG, PERSON, GPE, ...   │              │
- └────────┬────────────────────┘              │
-          │                                   │
-          └──────────────┬────────────────────┘
-                         ▼
-               ┌─────────────────┐
-               │  Streamlit UI   │
-               │  Tab 1: News    │
-               │  Tab 2: EDGAR   │
-               │  Tab 3: Portfolio│
-               └─────────────────┘
-```
-
----
-
 ## Quickstart
 
 ```bash
@@ -111,11 +64,11 @@ python -m spacy download en_core_web_sm
 # 5. Set your free HuggingFace token (https://huggingface.co/settings/tokens)
 export HF_TOKEN=hf_...
 
-# 6. Run dashboard
+# 6. Run dashboard  (three tabs: 📰 News · 📂 EDGAR · 🏦 Portfolio)
 streamlit run dashboard/app.py
 ```
 
-All data sources (Yahoo Finance, SEC EDGAR) are free with no API key. Only the LLM calls (FinBERT + Qwen2.5-72B) require a free HuggingFace token — no billing, no GPU.
+All data sources are free. Only FinBERT + Qwen2.5-72B require a free HuggingFace token — no billing, no GPU.
 
 ---
 
@@ -128,8 +81,6 @@ All data sources (Yahoo Finance, SEC EDGAR) are free with no API key. Only the L
 | NER | spaCy `en_core_web_sm` | Local (~12 MB) | Free |
 | News | Yahoo Finance | yfinance | Free |
 | Filings | SEC EDGAR | `data.sec.gov` public API | Free |
-
-FinBERT is fine-tuned on 10,000 financial sentences and significantly outperforms generic BERT on financial text. Qwen2.5-72B-Instruct extracts fund-level KPIs (IRR, AUM, TVPI, DPI) and qualitative signals from unstructured filing text via `chat.completions` — no local GPU or model download required.
 
 ---
 
@@ -144,7 +95,7 @@ FinBERT is fine-tuned on 10,000 financial sentences and significantly outperform
 | CG | Carlyle Group | PE / Credit / RE |
 | BAM | Brookfield Asset Management | Infra / RE / PE |
 
-All others via Yahoo Finance news (ticker symbol). CIK auto-lookup for unknown tickers.
+Any other ticker is supported via Yahoo Finance news. CIK auto-lookup handles unknown EDGAR tickers.
 
 ---
 
@@ -156,21 +107,7 @@ All outputs below are fetched from **live APIs** (no mocks). Refresh anytime:
 python examples/fetch_real_data.py
 ```
 
-### SEC EDGAR 8-K Filings (fetched from `data.sec.gov`)
-
-**BX — 2026-01-29 (Q4 2025 Earnings)**
-> _"Blackstone Reports Fourth Quarter and Full Year 2025 Results. New York, January 29, 2026: Blackstone (NYSE:BX) today reported its fourth quarter and full year 2025 results. Stephen A. Schwarzman, Chairman and CEO, said, 'Blackstone's extraordinary fourth-quarter results capped a record year for the firm. We delivered again for our limited partners, leading to $71 billion of inflows in the quarter...'"_
-
-**BX — 2025-11-03 (Senior Notes)**
-> _"Blackstone Completes Senior Notes Offering. Blackstone (NYSE: BX) announced the completion of the offering of $600 million of 4.300% senior notes due 2030 and $600 million of 4.950% senior notes due 2036..."_
-
-**KKR — 2026-02-05 (Q4 2025 Earnings)**
-> _"KKR & Co. Inc. Reports Fourth Quarter 2025 Financial Results. 2025 was a strong year for KKR with record annual figures across key metrics, including Fee Related Earnings, Adjusted Net Income per share, capital raised and capital invested..."_
-
-**KKR — 2026-02-05 (Arctos Acquisition)**
-> _"KKR to Acquire Arctos, Establishing a New Platform for Sports, GP Solutions and Secondaries in a Strategic Transaction Initially Valued at $1.4 Billion. Transaction expected to be accretive per share across key financial metrics immediately post-closing..."_
-
-Full example data files are committed to the repo under `examples/data/`:
+### Example data (`examples/data/`)
 - `news_articles.json` — 30 real articles with NER annotations
 - `news_articles_scored.json` — same + FinBERT sentiment scores per article
 - `edgar_filings.json` — 4 real 8-K filings (BX + KKR) with press-release text
@@ -234,19 +171,7 @@ pytest -m integration -v
 pytest --cov=src --cov-report=term-missing
 ```
 
-Unit tests run **fully offline** (all HTTP mocked). Integration tests hit live SEC EDGAR and Yahoo Finance and assert on real content quality — including a dedicated guard against XBRL garbage in filing text.
-
-To regenerate the dashboard screenshots from real example data:
-
-```bash
-python scripts/generate_screenshots.py
-```
-
-### Lint
-
-```bash
-ruff check .
-```
+Unit tests run fully offline (all HTTP mocked). Integration tests hit live EDGAR + Yahoo Finance.
 
 ---
 
@@ -259,8 +184,4 @@ This project is directly applicable to the following institutional workflows:
 - **Regulatory filing surveillance** – 8-K monitoring for material events in portfolio holdings
 - **Quantitative research** – sentiment scores as factor signals for allocation models
 
----
 
-## License
-
-MIT
