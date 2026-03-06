@@ -143,16 +143,27 @@ for tkr in portfolio_tickers:
     neg_vals.append(round(100 * (sub["label"] == "negative").sum() / total, 1))
     neu_vals.append(round(100 * (sub["label"] == "neutral").sum() / total, 1))
 
-fig_heat = go.Figure(data=go.Heatmap(
-    z=[pos_vals, neg_vals, neu_vals],
-    x=portfolio_tickers,
-    y=["Positive %", "Negative %", "Neutral %"],
-    colorscale=[[0.0, "#f8f9fa"], [0.4, "#fff3cd"], [1.0, "#2ecc71"]],
-    text=[[f"{v:.0f}%" for v in pos_vals],
-          [f"{v:.0f}%" for v in neg_vals],
-          [f"{v:.0f}%" for v in neu_vals]],
-    texttemplate="%{text}",
-    showscale=True,
+fig_heat = go.Figure()
+fig_heat.add_trace(go.Heatmap(
+    z=[pos_vals], x=portfolio_tickers, y=["Positive %"],
+    colorscale=[[0, "#f0faf0"], [1, "#2ecc71"]],
+    zmin=0, zmax=100,
+    text=[[f"{v:.0f}%" for v in pos_vals]], texttemplate="%{text}",
+    showscale=False,
+))
+fig_heat.add_trace(go.Heatmap(
+    z=[neg_vals], x=portfolio_tickers, y=["Negative %"],
+    colorscale=[[0, "#fff5f5"], [1, "#e74c3c"]],
+    zmin=0, zmax=100,
+    text=[[f"{v:.0f}%" for v in neg_vals]], texttemplate="%{text}",
+    showscale=False,
+))
+fig_heat.add_trace(go.Heatmap(
+    z=[neu_vals], x=portfolio_tickers, y=["Neutral %"],
+    colorscale=[[0, "#f8f9fa"], [1, "#7f8c8d"]],
+    zmin=0, zmax=100,
+    text=[[f"{v:.0f}%" for v in neu_vals]], texttemplate="%{text}",
+    showscale=False,
 ))
 fig_heat.update_layout(
     title="Portfolio Sentiment Heatmap — real FinBERT scores",
@@ -183,8 +194,13 @@ if kpi_rows:
         title="Qwen2.5-72B Extracted KPIs from Real SEC 8-K Filings",
         labels={"Value": "Value"},
         height=420, width=800,
+        text="Value",
     )
-    fig_kpi.update_layout(margin=dict(t=55, b=60), xaxis_tickangle=-20)
+    fig_kpi.update_traces(texttemplate="%{text:.0f}", textposition="outside")
+    fig_kpi.update_layout(
+        margin=dict(t=55, b=60), xaxis_tickangle=-20,
+        yaxis_type="log", yaxis_title="Value (log scale)",
+    )
 else:
     # Fallback: show entity + sentiment from real extractions
     entities = [ex["extracted"].get("fund_or_entity_name", "unknown") for ex in extractions]
