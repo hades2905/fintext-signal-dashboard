@@ -175,48 +175,53 @@ print("Saved portfolio_heatmap.png")
 # -------------------------------------------------------------------
 # 7. LLM-Extracted KPIs from real EDGAR filings (Qwen2.5-72B)
 # -------------------------------------------------------------------
-kpi_rows = []
+aum_rows = []
 for ex in extractions:
     e = ex["extracted"]
-    label = f"{ex['ticker']} {ex['filed_at']}"
     if e.get("aum_bn_usd"):
-        kpi_rows.append({"Filing": label, "Metric": "AUM ($bn)", "Value": e["aum_bn_usd"]})
-    if e.get("net_irr_pct"):
-        kpi_rows.append({"Filing": label, "Metric": "Net IRR (%)", "Value": e["net_irr_pct"]})
-    if e.get("tvpi"):
-        kpi_rows.append({"Filing": label, "Metric": "TVPI (×10 for scale)", "Value": e["tvpi"] * 10})
+        entity = e.get("fund_or_entity_name") or ex["ticker"]
+        aum_rows.append({
+            "Entity": f"{entity}\n({ex['ticker']} · {ex['filed_at']})",
+            "AUM ($bn)": e["aum_bn_usd"],
+        })
 
-if kpi_rows:
-    kpi_df = pd.DataFrame(kpi_rows)
-    fig_kpi = px.bar(
-        kpi_df, x="Filing", y="Value", color="Metric",
-        barmode="group",
-        title="Qwen2.5-72B Extracted KPIs from Real SEC 8-K Filings",
-        labels={"Value": "Value"},
-        height=420, width=800,
-        text="Value",
-    )
-    fig_kpi.update_traces(texttemplate="%{text:.0f}", textposition="outside")
+if aum_rows:
+    aum_df = pd.DataFrame(aum_rows).sort_values("AUM ($bn)")
+    fig_kpi = go.Figure(go.Bar(
+        x=aum_df["AUM ($bn)"],
+        y=aum_df["Entity"],
+        orientation="h",
+        marker_color=["#4a90d9", "#2ecc71"],
+        text=[f"${v:,.0f} bn" for v in aum_df["AUM ($bn)"]],
+        textposition="outside",
+        cliponaxis=False,
+    ))
     fig_kpi.update_layout(
-        margin=dict(t=55, b=60), xaxis_tickangle=-20,
-        yaxis_type="log", yaxis_title="Value (log scale)",
+        title="Qwen2.5-72B — AUM Extracted from Real SEC 8-K Filings",
+        xaxis_title="AUM ($ bn)",
+        height=300, width=800,
+        margin=dict(t=55, b=30, l=220, r=120),
+        xaxis=dict(range=[0, max(aum_df["AUM ($bn)"]) * 1.25]),
     )
 else:
-    # Fallback: show entity + sentiment from real extractions
-    entities = [ex["extracted"].get("fund_or_entity_name", "unknown") for ex in extractions]
+    # Fallback: show sentiment signal per filing
     sentiments_map = {"positive": 1, "cautious": 0.5, "negative": -1, None: 0}
-    svals = [sentiments_map.get(ex["extracted"].get("overall_sentiment"), 0) for ex in extractions]
-    labels_list = [f"{ex['ticker']} {ex['filed_at']}" for ex in extractions]
-    fig_kpi = px.bar(
-        x=labels_list, y=svals,
-        color=svals, color_continuous_scale=["#e74c3c", "#95a5a6", "#2ecc71"],
-        title="Qwen2.5-72B: LLM Sentiment per Real SEC 8-K Filing",
-        labels={"x": "Filing", "y": "Sentiment Score"},
-        height=360, width=760,
-        text=entities,
+    labels_list, svals, entities = [], [], []
+    for ex in extractions:
+        labels_list.append(f"{ex['ticker']} {ex['filed_at']}")
+        svals.append(sentiments_map.get(ex["extracted"].get("overall_sentiment"), 0))
+        entities.append(ex["extracted"].get("fund_or_entity_name", ex["ticker"]))
+    colors = ["#2ecc71" if s > 0 else "#e74c3c" if s < 0 else "#95a5a6" for s in svals]
+    fig_kpi = go.Figure(go.Bar(
+        x=labels_list, y=svals, marker_color=colors,
+        text=entities, textposition="outside",
+    ))
+    fig_kpi.update_layout(
+        title="Qwen2.5-72B: Sentiment Signal per SEC 8-K Filing",
+        yaxis_title="Sentiment (−1 neg · 0 neutral · +1 pos)",
+        height=380, width=800, margin=dict(t=55, b=80),
+        xaxis_tickangle=-20,
     )
-    fig_kpi.update_traces(textposition="outside")
-    fig_kpi.update_layout(margin=dict(t=55, b=60), xaxis_tickangle=-20)
 
 write_image(fig_kpi, OUT / "edgar_kpi_extraction.png", scale=2)
 print("Saved edgar_kpi_extraction.png")
