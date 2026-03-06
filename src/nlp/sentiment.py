@@ -1,49 +1,46 @@
 """
 FinBERT-based sentiment analysis for financial text.
 
-Model: ProsusAI/finbert (HuggingFace)
+Model: ProsusAI/finbert (HuggingFace Inference API)
 - Trained specifically on financial text (earnings calls, reports, news)
 - Labels: positive / negative / neutral
-- Runs fully locally, no API key required
+- Uses HuggingFace InferenceClient – no local model download required
+- Requires a free HF_TOKEN (https://huggingface.co/settings/tokens)
 """
 from __future__ import annotations
 
 import logging
-from functools import lru_cache
-from typing import Union
+import os
 
-from transformers import pipeline, Pipeline
+from huggingface_hub import InferenceClient
 
 from .schemas import Article, SentimentLabel, SentimentScore
 
 logger = logging.getLogger(__name__)
 
 MODEL_NAME = "ProsusAI/finbert"
-MAX_TOKENS = 512  # FinBERT context window
+MAX_CHARS = 1500  # keep well within FinBERT's 512-token window
 
 
-@lru_cache(maxsize=1)
-def _load_pipeline() -> Pipeline:
-    """Load FinBERT pipeline once and cache it."""
-    logger.info("Loading FinBERT model '%s' (first call may download ~450MB)…", MODEL_NAME)
-    return pipeline(
-        "text-classification",
-        model=MODEL_NAME,
-        tokenizer=MODEL_NAME,
-        top_k=None,          # return all 3 class scores
-        truncation=True,
-        max_length=MAX_TOKENS,
-    )
-
-
-def _truncate(text: str, max_chars: int = 2000) -> str:
-    """Truncate text to avoid feeding extremely long strings to the tokenizer."""
+def _truncate(text: str, max_chars: int = MAX_CHARS) -> str:
+    """Truncate text to avoid exceeding the model's token limit."""
     return text[:max_chars]
 
 
-def _scores_to_model(raw: list[dict]) -> SentimentScore:
-    """Convert raw pipeline output [{label, score}, …] → SentimentScore."""
-    label_map = {item["label"].lower(): item["score"] for item in raw}
+def _scores_to_model(raw: list) -> SentimentScore:
+    """
+    Convert InferenceClient text_classification output to SentimentScore.
+
+    The API returns a list of ClassificationOutput objects with .label / .score,
+    or plain dicts – handle both.
+    """
+    label_map: dict[str, float] = {}
+    for item in raw:
+        if hasattr(item, "label"):
+            label_map[item.label.lower()] = item.score
+        else:
+            label_map[item["label"].lower()] = item["score"]
+
     dominant = max(label_map, key=lambda k: label_map[k])
     return SentimentScore(
         label=SentimentLabel(dominant),
@@ -55,25 +52,39 @@ def _scores_to_model(raw: list[dict]) -> SentimentScore:
 
 class SentimentAnalyser:
     """
-    Wrapper around HuggingFace FinBERT pipeline.
+    Wrapper around the HuggingFace Inference API for FinBERT.
+
+    Parameters
+    ----------
+    api_key:
+        HuggingFace token. Falls back to the ``HF_TOKEN`` environment variable.
 
     Usage
     -----
-    >>> analyser = SentimentAnalyser()
+    >>> analyser = SentimentAnalyser(api_key="hf-...")
     >>> score = analyser.score("Earnings beat expectations by a wide margin.")
     >>> score.label
     <SentimentLabel.POSITIVE: 'positive'>
     """
 
-    def __init__(self) -> None:
-        self._pipe = _load_pipeline()
+    def __init__(self, api_key: str | None = None) -> None:
+        token = api_key or os.environ.get("HF_TOKEN", "")
+        if not token:
+            raise ValueError(
+                "A HuggingFace token is required. "
+                "Set HF_TOKEN env var or pass api_key=... to SentimentAnalyser()."
+            )
+        self._client = InferenceClient(
+            provider="hf-inference",
+            api_key=token,
+        )
 
     def score(self, text: str) -> SentimentScore:
         """Return a :class:`SentimentScore` for *text*."""
-        raw = self._pipe(_truncate(text))
-        # pipeline with top_k=None returns list[list[dict]] for one input
-        if isinstance(raw[0], list):
-            raw = raw[0]
+        raw = self._client.text_classification(
+            _truncate(text),
+            model=MODEL_NAME,
+        )
         return _scores_to_model(raw)
 
     def score_articles(self, articles: list[Article]) -> list[Article]:

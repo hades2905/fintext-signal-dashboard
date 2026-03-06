@@ -11,8 +11,7 @@ requires-python = ">=3.10"
 license = { text = "MIT" }
 dependencies = [
     "yfinance>=0.2.40",
-    "transformers>=4.40",
-    "torch>=2.2",
+    "huggingface_hub>=0.23",
     "spacy>=3.7",
     "pydantic>=2.6",
     "streamlit>=1.35",

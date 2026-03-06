@@ -47,23 +47,31 @@ class TestScoresToModel:
 # ---------------------------------------------------------------------------
 # SentimentAnalyser with mocked pipeline
 # ---------------------------------------------------------------------------
-MOCK_POSITIVE_RAW = [[
-    {"label": "positive", "score": 0.92},
-    {"label": "negative", "score": 0.04},
-    {"label": "neutral",  "score": 0.04},
-]]
+# Mock API response objects (simulate huggingface_hub ClassificationOutput)
+class _MockLabel:
+    def __init__(self, label: str, score: float):
+        self.label = label
+        self.score = score
 
-MOCK_NEGATIVE_RAW = [[
-    {"label": "positive", "score": 0.03},
-    {"label": "negative", "score": 0.91},
-    {"label": "neutral",  "score": 0.06},
-]]
+
+MOCK_POSITIVE_RAW = [
+    _MockLabel("positive", 0.92),
+    _MockLabel("negative", 0.04),
+    _MockLabel("neutral",  0.04),
+]
+
+MOCK_NEGATIVE_RAW = [
+    _MockLabel("positive", 0.03),
+    _MockLabel("negative", 0.91),
+    _MockLabel("neutral",  0.06),
+]
 
 
 def _make_analyser(mock_output: list) -> SentimentAnalyser:
     analyser = SentimentAnalyser.__new__(SentimentAnalyser)
-    mock_pipe = MagicMock(return_value=mock_output)
-    analyser._pipe = mock_pipe
+    mock_client = MagicMock()
+    mock_client.text_classification.return_value = mock_output
+    analyser._client = mock_client
     return analyser
 
 
@@ -96,9 +104,18 @@ class TestSentimentAnalyser:
         returned = analyser.score_articles(articles)
         assert returned is articles
 
-    def test_pipe_called_with_truncated_text(self):
+    def test_api_called_with_truncated_text(self):
         analyser = _make_analyser(MOCK_POSITIVE_RAW)
         long_text = "word " * 2000
         analyser.score(long_text)
-        called_text = analyser._pipe.call_args[0][0]
-        assert len(called_text) <= 2000
+        called_text = analyser._client.text_classification.call_args[0][0]
+        assert len(called_text) <= 1500
+
+    def test_missing_token_raises(self):
+        import os
+        from unittest.mock import patch
+        with patch.dict(os.environ, {}, clear=True):
+            # ensure HF_TOKEN is not set
+            os.environ.pop("HF_TOKEN", None)
+            with pytest.raises(ValueError, match="HuggingFace token"):
+                SentimentAnalyser(api_key=None)
