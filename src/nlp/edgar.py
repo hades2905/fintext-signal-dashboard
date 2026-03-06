@@ -14,6 +14,7 @@ import logging
 import re
 import time
 from datetime import datetime, timezone
+from html import unescape
 from typing import Optional
 
 import requests
@@ -74,27 +75,53 @@ def _fetch_filing_text(accession_raw: str, cik: str) -> tuple[str, str]:
     """
     Download the primary document text for a filing.
     Returns (text, filing_url).
+
+    Strategy:
+    1. Fetch the full-submission .txt file (SGML container)
+    2. Prefer the EX-99.1 exhibit section (press release with financial data)
+    3. Fall back to stripping all HTML/SGML tags from the full file
+    4. Decode HTML entities (&nbsp; &#160; etc.)
     """
     acc = accession_raw.replace("-", "")
-    acc_fmt = f"{accession_raw}"
-    # Index page
-    index_url = (
-        f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/{acc_fmt}-index.htm"
-    )
-    filing_url = index_url
+    acc_fmt = accession_raw
+    txt_url = f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/{acc_fmt}.txt"
+    filing_url = txt_url
     try:
-        idx_r = requests.get(index_url, headers=_SEARCH_HEADERS, timeout=10)
-        # Try to find the primary document link
-        # Fallback: just fetch the .txt version
-        txt_url = f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/{acc_fmt}.txt"
         time.sleep(_SLEEP)
         txt_r = requests.get(txt_url, headers=_SEARCH_HEADERS, timeout=15)
         raw = txt_r.text
-        # Strip SEC headers and XML tags to get readable text
-        text = re.sub(r"<[^>]+>", " ", raw)
-        text = re.sub(r"\s{3,}", "\n\n", text)
-        filing_url = txt_url
-        return text[:40_000], filing_url  # cap at 40k chars for LLM
+
+        # ----------------------------------------------------------------
+        # Try to extract the EX-99.1 exhibit (earnings press release)
+        # SGML structure: <TYPE>EX-99.1 ... <TEXT> ... </TEXT>
+        # ----------------------------------------------------------------
+        ex_match = re.search(
+            r"<TYPE>EX-99\.1.*?<TEXT>(.*?)</TEXT>",
+            raw,
+            re.DOTALL | re.IGNORECASE,
+        )
+        if ex_match:
+            content = ex_match.group(1)
+        else:
+            # Fall back: take content after the first <TYPE>8-K block
+            sig_pos = raw.find("<TYPE>8-K")
+            if sig_pos != -1:
+                # skip past the header to the <TEXT> portion of the 8-K
+                text_pos = raw.find("<TEXT>", sig_pos)
+                content = raw[text_pos + 6:] if text_pos != -1 else raw[sig_pos:]
+            else:
+                content = raw
+
+        # Strip HTML/XML tags
+        text = re.sub(r"<[^>]+>", " ", content)
+        # Decode HTML entities (&nbsp; &#160; &amp; etc.)
+        text = unescape(text)
+        # Normalise whitespace
+        text = re.sub(r"[ \t]{2,}", " ", text)
+        text = re.sub(r"\n{3,}", "\n\n", text)
+        text = text.strip()
+
+        return text[:40_000], filing_url  # cap for LLM context window
     except Exception as exc:
         logger.warning("Could not fetch filing text for %s: %s", accession_raw, exc)
         return "", filing_url

@@ -1,0 +1,857 @@
+[
+  {
+    "ticker": "BX",
+    "title": "Blackstone Redemptions Test Liquidity As Shares Trade Below Fair Value",
+    "text": "Blackstone's flagship private credit fund, BCRED, has seen a sharp rise in investor redemption requests. In response, Blackstone raised the fund's repurchase cap and injected additional capital to meet all redemption demands. The decision to fully honor requests and support the fund with fresh capital marks an unusual move in the private credit market. For investors watching NYSE:BX, this comes at a time when the share price is around $114.14 and recent stock performance has been weak, with...",
+    "source": "Simply Wall St.",
+    "published_at": "2026-03-05T06:13:26+00:00",
+    "url": "https://finance.yahoo.com/news/blackstone-redemptions-test-liquidity-shares-061326754.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Blackstone Redemptions Test Liquidity As Shares Trade Below Fair Value Blackstone's",
+        "label": "ORG"
+      },
+      {
+        "text": "Blackstone",
+        "label": "ORG"
+      },
+      {
+        "text": "NYSE",
+        "label": "ORG"
+      },
+      {
+        "text": "BX",
+        "label": "ORG"
+      },
+      {
+        "text": "around $114.14",
+        "label": "MONEY"
+      }
+    ]
+  },
+  {
+    "ticker": "BX",
+    "title": "Is Blackstone (BX) Now At A Reasonable Price After Recent Share Price Slide",
+    "text": "If you are wondering whether Blackstone's current share price reflects its true worth, you are not alone. This article is going to focus squarely on what you might be paying for each dollar of value in the business. Blackstone's share price closed at US$114.14, with a 3.5% decline over 7 days, a 19.2% decline over 30 days, a 28.1% decline year to date and a 22.4% decline over 1 year, set against longer term returns of 36.9% over 3 years and 91.3% over 5 years. Recent headlines around...",
+    "source": "Simply Wall St.",
+    "published_at": "2026-03-05T05:10:17+00:00",
+    "url": "https://finance.yahoo.com/news/blackstone-bx-now-reasonable-price-051017982.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Blackstone",
+        "label": "ORG"
+      },
+      {
+        "text": "114.14",
+        "label": "MONEY"
+      },
+      {
+        "text": "3.5%",
+        "label": "PERCENT"
+      },
+      {
+        "text": "19.2%",
+        "label": "PERCENT"
+      },
+      {
+        "text": "28.1%",
+        "label": "PERCENT"
+      },
+      {
+        "text": "22.4%",
+        "label": "PERCENT"
+      },
+      {
+        "text": "36.9%",
+        "label": "PERCENT"
+      },
+      {
+        "text": "91.3%",
+        "label": "PERCENT"
+      }
+    ]
+  },
+  {
+    "ticker": "BX",
+    "title": "Is There Opportunity in Private Credit Stocks or Still Too Much Risk?",
+    "text": "Investing in the private credit market can offer high yields, but the downside risks are real and increasingly visible.",
+    "source": "Zacks",
+    "published_at": "2026-03-05T00:11:00+00:00",
+    "url": "https://finance.yahoo.com/news/opportunity-private-credit-stocks-still-001100965.html",
+    "sentiment": null,
+    "entities": []
+  },
+  {
+    "ticker": "BX",
+    "title": "Blue Owl Stock Has Plunged on Private Credit Fears. This Analyst Says They’re Overblown.",
+    "text": "Wall Street believes  Blue Owl Capital  has a major credit problem.  Chris Kotowski at Oppenheimer disagrees.  “We do not believe in the narrative of a broad-based deterioration in private credit,” Kotowski declared in a research report Wednesday.",
+    "source": "Barrons.com",
+    "published_at": "2026-03-04T19:40:00+00:00",
+    "url": "https://www.barrons.com/articles/blue-owl-stock-price-private-credit-buy-51860113?siteid=yhoof2&yptr=yahoo",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Blue Owl Stock Has Plunged",
+        "label": "ORG"
+      },
+      {
+        "text": "Private Credit Fears",
+        "label": "ORG"
+      },
+      {
+        "text": "Blue Owl Capital",
+        "label": "ORG"
+      },
+      {
+        "text": "Chris Kotowski",
+        "label": "PERSON"
+      },
+      {
+        "text": "Oppenheimer",
+        "label": "ORG"
+      },
+      {
+        "text": "Kotowski",
+        "label": "PERSON"
+      }
+    ]
+  },
+  {
+    "ticker": "BX",
+    "title": "KKR Co-CEOs Keep Buying the Stock Dip",
+    "text": "Two top executives at  KKR  keep buying the dip in the firm’s beleaguered stock.  Co-CEOs Joseph Bae and Scott Nuttall purchased a combined $8.8 million worth of KKR common stock last week, according to regulatory filings.  Independent board director Mary Dillon bought $2 million worth of KKR stock on Monday.",
+    "source": "Barrons.com",
+    "published_at": "2026-03-04T19:22:00+00:00",
+    "url": "https://www.barrons.com/articles/kkr-stock-price-buy-ceo-94428bd1?siteid=yhoof2&yptr=yahoo",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "KKR Co-CEOs",
+        "label": "ORG"
+      },
+      {
+        "text": "Keep Buying the Stock Dip",
+        "label": "ORG"
+      },
+      {
+        "text": "KKR",
+        "label": "ORG"
+      },
+      {
+        "text": "Joseph Bae",
+        "label": "PERSON"
+      },
+      {
+        "text": "Scott Nuttall",
+        "label": "PERSON"
+      },
+      {
+        "text": "$8.8 million",
+        "label": "MONEY"
+      },
+      {
+        "text": "Independent",
+        "label": "ORG"
+      },
+      {
+        "text": "Mary Dillon",
+        "label": "PERSON"
+      },
+      {
+        "text": "$2 million",
+        "label": "MONEY"
+      }
+    ]
+  },
+  {
+    "ticker": "BX",
+    "title": "Sector Update: Financial Stocks Advance Pre-Bell Wednesday",
+    "text": "Financial stocks were advancing pre-bell Wednesday, with the State Street Financial Select Sector SP",
+    "source": "MT Newswires",
+    "published_at": "2026-03-04T14:20:03+00:00",
+    "url": "https://finance.yahoo.com/news/sector-financial-stocks-advance-pre-142003179.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Advance Pre-Bell",
+        "label": "PERSON"
+      },
+      {
+        "text": "Financial",
+        "label": "ORG"
+      },
+      {
+        "text": "the State Street Financial Select Sector SP",
+        "label": "ORG"
+      }
+    ]
+  },
+  {
+    "ticker": "BX",
+    "title": "Blackstone's $4 Billion Hong Kong Bet Hits Wall",
+    "text": "Control fight slows New World rescue talks",
+    "source": "GuruFocus.com",
+    "published_at": "2026-03-04T12:51:08+00:00",
+    "url": "https://finance.yahoo.com/news/blackstones-4-billion-hong-kong-125108733.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Blackstone",
+        "label": "ORG"
+      },
+      {
+        "text": "$4 Billion",
+        "label": "MONEY"
+      },
+      {
+        "text": "New World",
+        "label": "ORG"
+      }
+    ]
+  },
+  {
+    "ticker": "BX",
+    "title": "Update: Market Chatter: Blackstone's Talks With New World Development Stalled Over Control",
+    "text": "(Updates with Blackstone's response in the fifth paragraph.) Blackstone's (BX) discussions with H",
+    "source": "MT Newswires",
+    "published_at": "2026-03-04T11:38:24+00:00",
+    "url": "https://finance.yahoo.com/news/market-chatter-blackstone-apos-talks-113824301.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Blackstone",
+        "label": "ORG"
+      },
+      {
+        "text": "Talks With New World Development",
+        "label": "ORG"
+      },
+      {
+        "text": "BX",
+        "label": "ORG"
+      }
+    ]
+  },
+  {
+    "ticker": "BX",
+    "title": "Market Chatter: Blackstone's Talks With New World Development Stalled Over Control",
+    "text": "Blackstone's (BX) discussions with Hong Kong developer New World Development over a proposed investm",
+    "source": "MT Newswires",
+    "published_at": "2026-03-04T10:09:31+00:00",
+    "url": "https://finance.yahoo.com/news/market-chatter-blackstone-apos-talks-100931340.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Blackstone",
+        "label": "ORG"
+      },
+      {
+        "text": "Talks With New World Development",
+        "label": "ORG"
+      },
+      {
+        "text": "Control Blackstone's",
+        "label": "ORG"
+      },
+      {
+        "text": "BX",
+        "label": "ORG"
+      },
+      {
+        "text": "Hong Kong",
+        "label": "GPE"
+      },
+      {
+        "text": "New World Development",
+        "label": "ORG"
+      }
+    ]
+  },
+  {
+    "ticker": "BX",
+    "title": "A Blackstone executive made a revealing comment about the state of private credit",
+    "text": "A Blackstone executive made a revealing comment about the state of private credit. Analysts are now reverse engineering its implications.",
+    "source": "MarketWatch",
+    "published_at": "2026-03-04T09:52:00+00:00",
+    "url": "https://www.marketwatch.com/story/a-blackstone-executive-made-a-revealing-comment-about-the-state-of-private-credit-86dd510f",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Blackstone",
+        "label": "ORG"
+      }
+    ]
+  },
+  {
+    "ticker": "KKR",
+    "title": "Cosmetic Lens Maker Moody Considers Sale That Could Value Company at $1 Billion",
+    "text": "Shanghai Moody Technology is working with an adviser and may sound out buyers months after raising over 1 billion yuan from investors.",
+    "source": "GuruFocus.com",
+    "published_at": "2026-03-05T19:58:31+00:00",
+    "url": "https://finance.yahoo.com/news/cosmetic-lens-maker-moody-considers-195831548.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "$1 Billion",
+        "label": "MONEY"
+      },
+      {
+        "text": "Shanghai Moody Technology",
+        "label": "ORG"
+      },
+      {
+        "text": "over 1 billion yuan",
+        "label": "MONEY"
+      }
+    ]
+  },
+  {
+    "ticker": "KKR",
+    "title": "KKR Insider Buying And New Retail Fund Reshape Growth Story",
+    "text": "KKR (NYSE:KKR) Co CEOs and an independent board director recently made significant insider purchases of KKR shares, increasing their personal stakes in the firm. The company has also launched its first private equity fund for individual investors in partnership with Capital Group, expanding access beyond traditional institutional clients. KKR, a global investment firm known for its private equity, credit, and real assets platforms, sits at the center of long running interest in alternative...",
+    "source": "Simply Wall St.",
+    "published_at": "2026-03-05T18:11:00+00:00",
+    "url": "https://finance.yahoo.com/news/kkr-insider-buying-retail-fund-181100212.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "KKR",
+        "label": "ORG"
+      },
+      {
+        "text": "NYSE",
+        "label": "ORG"
+      },
+      {
+        "text": "Capital Group",
+        "label": "ORG"
+      }
+    ]
+  },
+  {
+    "ticker": "KKR",
+    "title": "How The Story Is Shifting For KKR (KKR) As Analysts Rework Valuation Targets",
+    "text": "The average fair value estimate for KKR has been revised from US$143.87 to US$140.40 per share, signaling a modest reset in where analysts currently see equilibrium value. That adjustment sits alongside a wave of fresh initiations, rating changes, and target cuts to levels like US$127, US$125 and US$168, as well as at least one move to Hold, showing how split the Street is between long term franchise views and nearer term execution risk. As you read on, you will see how these shifting targets...",
+    "source": "Simply Wall St.",
+    "published_at": "2026-03-05T05:07:37+00:00",
+    "url": "https://finance.yahoo.com/news/story-shifting-kkr-kkr-analysts-050737764.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "KKR",
+        "label": "ORG"
+      },
+      {
+        "text": "Analysts Rework Valuation Targets",
+        "label": "ORG"
+      },
+      {
+        "text": "US$143.87 to US$140.40",
+        "label": "MONEY"
+      },
+      {
+        "text": "127",
+        "label": "MONEY"
+      },
+      {
+        "text": "US$125 and US$168",
+        "label": "MONEY"
+      }
+    ]
+  },
+  {
+    "ticker": "KKR",
+    "title": "KKR Co-CEOs Keep Buying the Stock Dip",
+    "text": "Two top executives at  KKR  keep buying the dip in the firm’s beleaguered stock.  Co-CEOs Joseph Bae and Scott Nuttall purchased a combined $8.8 million worth of KKR common stock last week, according to regulatory filings.  Independent board director Mary Dillon bought $2 million worth of KKR stock on Monday.",
+    "source": "Barrons.com",
+    "published_at": "2026-03-04T19:22:00+00:00",
+    "url": "https://www.barrons.com/articles/kkr-stock-price-buy-ceo-94428bd1?siteid=yhoof2&yptr=yahoo",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "KKR Co-CEOs",
+        "label": "ORG"
+      },
+      {
+        "text": "Keep Buying the Stock Dip",
+        "label": "ORG"
+      },
+      {
+        "text": "KKR",
+        "label": "ORG"
+      },
+      {
+        "text": "Joseph Bae",
+        "label": "PERSON"
+      },
+      {
+        "text": "Scott Nuttall",
+        "label": "PERSON"
+      },
+      {
+        "text": "$8.8 million",
+        "label": "MONEY"
+      },
+      {
+        "text": "Independent",
+        "label": "ORG"
+      },
+      {
+        "text": "Mary Dillon",
+        "label": "PERSON"
+      },
+      {
+        "text": "$2 million",
+        "label": "MONEY"
+      }
+    ]
+  },
+  {
+    "ticker": "KKR",
+    "title": "Washed-Out Private-Credit Stocks Approach Technical Inflection Points",
+    "text": "Publicly traded lenders and alternative asset managers have come under pressure amid concerns over credit quality and liquidity.  KKR & Co  is clearly struggling, down 27% so far this year.  The stock is now 39% off its most recent 52-week high but is attempting to end a seven-week losing streak.",
+    "source": "Barrons.com",
+    "published_at": "2026-03-04T16:39:00+00:00",
+    "url": "https://www.barrons.com/articles/private-credit-stocks-kkr-apollog-approach-technical-inflection-points-b9a8ccc2?siteid=yhoof2&yptr=yahoo",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Private-Credit Stocks Approach Technical Inflection Points Publicly",
+        "label": "ORG"
+      },
+      {
+        "text": "KKR & Co",
+        "label": "ORG"
+      },
+      {
+        "text": "27%",
+        "label": "PERCENT"
+      },
+      {
+        "text": "39%",
+        "label": "PERCENT"
+      }
+    ]
+  },
+  {
+    "ticker": "KKR",
+    "title": "Blackstone’s Private Credit Fund BCRED Sees Record Redemptions. The Worries Are Growing.",
+    "text": "Blackstone indicated it saw higher-than-expected redemption requests at its flagship private credit fund.",
+    "source": "Barrons.com",
+    "published_at": "2026-03-03T20:25:00+00:00",
+    "url": "https://www.barrons.com/articles/blackstone-bcred-redemptions-private-credit-fund-stock-price-19b02b90?siteid=yhoof2&yptr=yahoo",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Blackstone’s Private Credit Fund BCRED Sees Record Redemptions",
+        "label": "ORG"
+      },
+      {
+        "text": "The Worries Are Growing",
+        "label": "ORG"
+      }
+    ]
+  },
+  {
+    "ticker": "KKR",
+    "title": "VCTR Proposes the Acquisition of JHG, Sees $500M in Cost Synergies",
+    "text": "Victory Capital proposes a fully financed acquisition of Janus Henderson and expects $500M in cost synergies from the transaction.",
+    "source": "Zacks",
+    "published_at": "2026-03-03T15:45:00+00:00",
+    "url": "https://finance.yahoo.com/news/vctr-proposes-acquisition-jhg-sees-154500335.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "VCTR",
+        "label": "ORG"
+      },
+      {
+        "text": "$500M",
+        "label": "MONEY"
+      },
+      {
+        "text": "Janus Henderson",
+        "label": "PERSON"
+      }
+    ]
+  },
+  {
+    "ticker": "KKR",
+    "title": "RBC Capital Initiates Coverage on KKR & Co. Inc. (KKR) with an Outperform Call",
+    "text": "KKR & Co. Inc. (NYSE:KKR) is one of the 14 Most Undervalued NYSE Stocks to Buy According to Analysts. RBC Capital initiated coverage of KKR on February 24, assigning the company an Outperform rating and a target price of $137. The firm sees KKR making good progress relative to its mid-term and long-term targets, which […]",
+    "source": "Insider Monkey",
+    "published_at": "2026-03-02T14:47:29+00:00",
+    "url": "https://finance.yahoo.com/news/rbc-capital-initiates-coverage-kkr-144729592.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "RBC Capital Initiates Coverage",
+        "label": "ORG"
+      },
+      {
+        "text": "KKR & Co. Inc.",
+        "label": "ORG"
+      },
+      {
+        "text": "KKR",
+        "label": "ORG"
+      },
+      {
+        "text": "Outperform Call KKR & Co. Inc.",
+        "label": "ORG"
+      },
+      {
+        "text": "NYSE",
+        "label": "ORG"
+      },
+      {
+        "text": "Buy",
+        "label": "PERSON"
+      },
+      {
+        "text": "RBC Capital",
+        "label": "ORG"
+      },
+      {
+        "text": "Outperform",
+        "label": "ORG"
+      },
+      {
+        "text": "137",
+        "label": "MONEY"
+      }
+    ]
+  },
+  {
+    "ticker": "KKR",
+    "title": "Barclays Cuts KKR & Co. (KKR) Price Target Amid Mixed Q4 Results, Maintains Overweight Rating",
+    "text": "KKR & Co. Inc. (NYSE:KKR) ranks among the best stocks to buy now for long-term growth. Following the release of the company’s fourth-quarter earnings report, Barclays reduced its price target for KKR & Co. Inc. (NYSE:KKR) to $136 from $159 while keeping an Overweight rating on February 6. KKR & Co. Inc. (NYSE:KKR) reported an […]",
+    "source": "Insider Monkey",
+    "published_at": "2026-02-28T03:57:59+00:00",
+    "url": "https://finance.yahoo.com/news/barclays-cuts-kkr-co-kkr-035759375.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Barclays Cuts KKR & Co.",
+        "label": "ORG"
+      },
+      {
+        "text": "KKR",
+        "label": "ORG"
+      },
+      {
+        "text": "Mixed Q4 Results",
+        "label": "PERSON"
+      },
+      {
+        "text": "KKR & Co. Inc.",
+        "label": "ORG"
+      },
+      {
+        "text": "NYSE",
+        "label": "ORG"
+      },
+      {
+        "text": "Barclays",
+        "label": "ORG"
+      },
+      {
+        "text": "136",
+        "label": "MONEY"
+      },
+      {
+        "text": "159",
+        "label": "MONEY"
+      },
+      {
+        "text": "Overweight",
+        "label": "ORG"
+      }
+    ]
+  },
+  {
+    "ticker": "KKR",
+    "title": "KKR (KKR) Is Down 13.3% After FS KKR Credit Strains And Dividend Cut - Has The Bull Case Changed?",
+    "text": "In recent days, KKR-managed FS KKR Capital Corporation reported higher troubled loans, asset markdowns tied to software exposures, lower income, and a 31% dividend cut, intensifying scrutiny of the firm’s private credit activities. These developments have sharpened investor focus on how credit quality, portfolio valuations, and dividend policy at KKR-managed vehicles could influence perceptions of KKR’s broader fee and performance income resilience. We’ll now examine how rising concerns over...",
+    "source": "Simply Wall St.",
+    "published_at": "2026-02-27T23:12:34+00:00",
+    "url": "https://finance.yahoo.com/news/kkr-kkr-down-13-3-231234991.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "KKR",
+        "label": "ORG"
+      },
+      {
+        "text": "13.3%",
+        "label": "PERCENT"
+      },
+      {
+        "text": "FS KKR Capital Corporation",
+        "label": "ORG"
+      },
+      {
+        "text": "31%",
+        "label": "PERCENT"
+      }
+    ]
+  },
+  {
+    "ticker": "APO",
+    "title": "A Look At Apollo Global Management (APO) Valuation As Epstein Related Lawsuits Stir Legal And Reputation Concerns",
+    "text": "Why legal action around Apollo Global Management (APO) is front and center Multiple investor law firms have launched class action lawsuits accusing Apollo Global Management (APO) and senior leaders of misleading disclosures about ties to Jeffrey Epstein, linking those claims to reputational damage and shareholder losses. For you as a current or potential shareholder, this cluster of legal actions raises two immediate questions: how material the alleged disclosure issues could be for Apollo's...",
+    "source": "Simply Wall St.",
+    "published_at": "2026-03-05T09:14:23+00:00",
+    "url": "https://finance.yahoo.com/news/look-apollo-global-management-apo-091423719.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Apollo Global Management",
+        "label": "ORG"
+      },
+      {
+        "text": "APO",
+        "label": "ORG"
+      },
+      {
+        "text": "Jeffrey Epstein",
+        "label": "PERSON"
+      },
+      {
+        "text": "Apollo",
+        "label": "ORG"
+      }
+    ]
+  },
+  {
+    "ticker": "APO",
+    "title": "Is There Opportunity in Private Credit Stocks or Still Too Much Risk?",
+    "text": "Investing in the private credit market can offer high yields, but the downside risks are real and increasingly visible.",
+    "source": "Zacks",
+    "published_at": "2026-03-05T00:11:00+00:00",
+    "url": "https://finance.yahoo.com/news/opportunity-private-credit-stocks-still-001100965.html",
+    "sentiment": null,
+    "entities": []
+  },
+  {
+    "ticker": "APO",
+    "title": "Blue Owl Stock Has Plunged on Private Credit Fears. This Analyst Says They’re Overblown.",
+    "text": "Wall Street believes  Blue Owl Capital  has a major credit problem.  Chris Kotowski at Oppenheimer disagrees.  “We do not believe in the narrative of a broad-based deterioration in private credit,” Kotowski declared in a research report Wednesday.",
+    "source": "Barrons.com",
+    "published_at": "2026-03-04T19:40:00+00:00",
+    "url": "https://www.barrons.com/articles/blue-owl-stock-price-private-credit-buy-51860113?siteid=yhoof2&yptr=yahoo",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Blue Owl Stock Has Plunged",
+        "label": "ORG"
+      },
+      {
+        "text": "Private Credit Fears",
+        "label": "ORG"
+      },
+      {
+        "text": "Blue Owl Capital",
+        "label": "ORG"
+      },
+      {
+        "text": "Chris Kotowski",
+        "label": "PERSON"
+      },
+      {
+        "text": "Oppenheimer",
+        "label": "ORG"
+      },
+      {
+        "text": "Kotowski",
+        "label": "PERSON"
+      }
+    ]
+  },
+  {
+    "ticker": "APO",
+    "title": "Bill Gates, Leon Black Testimony Sought for Epstein Probe",
+    "text": "The billionaires were among seven people House Oversight Committee Chair James Comer summoned in letters sent Tuesday for the panel’s investigation.  Other recipients include Goldman Sachs Group Inc. General Counsel Kathryn Ruemmler, who said through a spokesperson that she “welcomes” the chance to address questions, and tech billionaire Ted Waitt.",
+    "source": "Bloomberg",
+    "published_at": "2026-03-04T18:09:31+00:00",
+    "url": "https://finance.yahoo.com/news/bill-gates-leon-black-testimony-003354007.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Bill Gates",
+        "label": "PERSON"
+      },
+      {
+        "text": "Leon Black Testimony",
+        "label": "PERSON"
+      },
+      {
+        "text": "House Oversight Committee",
+        "label": "ORG"
+      },
+      {
+        "text": "James Comer",
+        "label": "PERSON"
+      },
+      {
+        "text": "Goldman Sachs Group Inc.",
+        "label": "ORG"
+      },
+      {
+        "text": "Kathryn Ruemmler",
+        "label": "PERSON"
+      },
+      {
+        "text": "Ted Waitt",
+        "label": "PERSON"
+      }
+    ]
+  },
+  {
+    "ticker": "APO",
+    "title": "Washed-Out Private-Credit Stocks Approach Technical Inflection Points",
+    "text": "Publicly traded lenders and alternative asset managers have come under pressure amid concerns over credit quality and liquidity.  KKR & Co  is clearly struggling, down 27% so far this year.  The stock is now 39% off its most recent 52-week high but is attempting to end a seven-week losing streak.",
+    "source": "Barrons.com",
+    "published_at": "2026-03-04T16:39:00+00:00",
+    "url": "https://www.barrons.com/articles/private-credit-stocks-kkr-apollog-approach-technical-inflection-points-b9a8ccc2?siteid=yhoof2&yptr=yahoo",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Private-Credit Stocks Approach Technical Inflection Points Publicly",
+        "label": "ORG"
+      },
+      {
+        "text": "KKR & Co",
+        "label": "ORG"
+      },
+      {
+        "text": "27%",
+        "label": "PERCENT"
+      },
+      {
+        "text": "39%",
+        "label": "PERCENT"
+      }
+    ]
+  },
+  {
+    "ticker": "APO",
+    "title": "Jim Cramer Explains Why Ares Management, KKR and Apollo “Traded in Lockstep”",
+    "text": "Ares Management Corporation (NYSE:ARES) is one of the S&P 500 stocks that Jim Cramer shared his take on. Cramer mentioned the stock during the episode and said: How about the other group of big losers this month? Oh boy, the private equity firms with lots of private credit exposure. Ares Management was the third-worst performing […]",
+    "source": "Insider Monkey",
+    "published_at": "2026-03-04T15:08:12+00:00",
+    "url": "https://finance.yahoo.com/news/jim-cramer-explains-why-ares-150812825.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Jim Cramer Explains",
+        "label": "PERSON"
+      },
+      {
+        "text": "KKR",
+        "label": "ORG"
+      },
+      {
+        "text": "Apollo",
+        "label": "ORG"
+      },
+      {
+        "text": "Lockstep",
+        "label": "GPE"
+      },
+      {
+        "text": "NYSE",
+        "label": "ORG"
+      },
+      {
+        "text": "ARES",
+        "label": "ORG"
+      },
+      {
+        "text": "Jim Cramer",
+        "label": "PERSON"
+      }
+    ]
+  },
+  {
+    "ticker": "APO",
+    "title": "Private Market Titans Warn of Pain as Credit Cracks Widen",
+    "text": "From Blue Owl Capital Inc. to Blackstone Inc., private credit funds across the industry are facing a wave of withdrawals and analysts are warning default rates could soar if AI disrupts corporate America as much as some experts expect.  “People made choices: If you wanted a higher dividend, you could take more risk,” Apollo Global Management Inc. Chief Executive Officer Marc Rowan said on stage at the Bloomberg Invest conference.",
+    "source": "Bloomberg",
+    "published_at": "2026-03-04T04:47:26+00:00",
+    "url": "https://finance.yahoo.com/news/private-market-titans-warn-pain-044726765.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Blackstone Inc.",
+        "label": "ORG"
+      },
+      {
+        "text": "AI",
+        "label": "GPE"
+      },
+      {
+        "text": "America",
+        "label": "GPE"
+      },
+      {
+        "text": "Apollo Global Management Inc.",
+        "label": "ORG"
+      },
+      {
+        "text": "Marc Rowan",
+        "label": "PERSON"
+      },
+      {
+        "text": "the Bloomberg Invest",
+        "label": "FAC"
+      }
+    ]
+  },
+  {
+    "ticker": "APO",
+    "title": "Sector Update: Financial Stocks Retreat Late Afternoon",
+    "text": "Financial stocks were lower in late Tuesday afternoon trading, with the NYSE Financial Index droppin",
+    "source": "MT Newswires",
+    "published_at": "2026-03-03T20:59:44+00:00",
+    "url": "https://finance.yahoo.com/news/sector-financial-stocks-retreat-afternoon-205944599.html",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "NYSE Financial",
+        "label": "ORG"
+      }
+    ]
+  },
+  {
+    "ticker": "APO",
+    "title": "Blackstone’s Private Credit Fund BCRED Sees Record Redemptions. The Worries Are Growing.",
+    "text": "Blackstone indicated it saw higher-than-expected redemption requests at its flagship private credit fund.",
+    "source": "Barrons.com",
+    "published_at": "2026-03-03T20:25:00+00:00",
+    "url": "https://www.barrons.com/articles/blackstone-bcred-redemptions-private-credit-fund-stock-price-19b02b90?siteid=yhoof2&yptr=yahoo",
+    "sentiment": null,
+    "entities": [
+      {
+        "text": "Blackstone’s Private Credit Fund BCRED Sees Record Redemptions",
+        "label": "ORG"
+      },
+      {
+        "text": "The Worries Are Growing",
+        "label": "ORG"
+      }
+    ]
+  },
+  {
+    "ticker": "APO",
+    "title": "Sector Update: Financial Stocks Mixed Tuesday Afternoon",
+    "text": "Financial stocks were mixed in Tuesday afternoon trading, with the NYSE Financial Index dropping 1.1",
+    "source": "MT Newswires",
+    "published_at": "2026-03-03T18:40:43+00:00",
+    "url": "https://finance.yahoo.com/news/sector-financial-stocks-mixed-tuesday-184043137.html",
+    "sentiment": null,
+    "entities": []
+  }
+]

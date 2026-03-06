@@ -1,0 +1,102 @@
+[
+  {
+    "entity": "KKR",
+    "label": "ORG",
+    "mentions": 8
+  },
+  {
+    "entity": "Blackstone",
+    "label": "ORG",
+    "mentions": 6
+  },
+  {
+    "entity": "NYSE",
+    "label": "ORG",
+    "mentions": 5
+  },
+  {
+    "entity": "BX",
+    "label": "ORG",
+    "mentions": 3
+  },
+  {
+    "entity": "Blue Owl Stock Has Plunged",
+    "label": "ORG",
+    "mentions": 2
+  },
+  {
+    "entity": "Private Credit Fears",
+    "label": "ORG",
+    "mentions": 2
+  },
+  {
+    "entity": "Blue Owl Capital",
+    "label": "ORG",
+    "mentions": 2
+  },
+  {
+    "entity": "Chris Kotowski",
+    "label": "PERSON",
+    "mentions": 2
+  },
+  {
+    "entity": "Oppenheimer",
+    "label": "ORG",
+    "mentions": 2
+  },
+  {
+    "entity": "Kotowski",
+    "label": "PERSON",
+    "mentions": 2
+  },
+  {
+    "entity": "KKR Co-CEOs",
+    "label": "ORG",
+    "mentions": 2
+  },
+  {
+    "entity": "Keep Buying the Stock Dip",
+    "label": "ORG",
+    "mentions": 2
+  },
+  {
+    "entity": "Joseph Bae",
+    "label": "PERSON",
+    "mentions": 2
+  },
+  {
+    "entity": "Scott Nuttall",
+    "label": "PERSON",
+    "mentions": 2
+  },
+  {
+    "entity": "$8.8 million",
+    "label": "MONEY",
+    "mentions": 2
+  },
+  {
+    "entity": "Independent",
+    "label": "ORG",
+    "mentions": 2
+  },
+  {
+    "entity": "Mary Dillon",
+    "label": "PERSON",
+    "mentions": 2
+  },
+  {
+    "entity": "$2 million",
+    "label": "MONEY",
+    "mentions": 2
+  },
+  {
+    "entity": "Talks With New World Development",
+    "label": "ORG",
+    "mentions": 2
+  },
+  {
+    "entity": "Private-Credit Stocks Approach Technical Inflection Points Publicly",
+    "label": "ORG",
+    "mentions": 2
+  }
+]

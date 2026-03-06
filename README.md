@@ -145,9 +145,57 @@ All others via Yahoo Finance news (ticker symbol). CIK auto-lookup for unknown t
 
 ---
 
-## Example Output (BX – Blackstone Q3 8-K)
+## Real Example Data
 
-**LLM Structured Extract:**
+All outputs below are fetched from **live APIs** (no mocks). Refresh anytime:
+
+```bash
+python examples/fetch_real_data.py
+```
+
+### Live News Headlines (BX / KKR / APO — 30 articles)
+
+```
+[BX] Blackstone Redemptions Test Liquidity As Shares Trade Below Fair Value
+[BX] Is Blackstone (BX) Now At A Reasonable Price After Recent Share Price Slide
+[BX] Is There Opportunity in Private Credit Stocks or Still Too Much Risk?
+[BX] Blue Owl Stock Has Plunged on Private Credit Fears. This Analyst Says They're Overblown.
+[BX] KKR Co-CEOs Keep Buying the Stock Dip
+[BX] Sector Update: Financial Stocks Advance Pre-Bell Wednesday
+```
+
+### Top Named Entities (spaCy NER · 30 articles)
+
+| Entity | Type | Mentions |
+|---|---|---|
+| KKR | ORG | 8 |
+| Blackstone | ORG | 6 |
+| NYSE | ORG | 5 |
+| Blue Owl Capital | ORG | 2 |
+| Chris Kotowski | PERSON | 2 |
+| Oppenheimer | ORG | 2 |
+
+### Real SEC EDGAR 8-K Filings (fetched from `data.sec.gov`)
+
+**BX — 2026-01-29 (Q4 2025 Earnings)**
+> _"Blackstone Reports Fourth Quarter and Full Year 2025 Results. New York, January 29, 2026: Blackstone (NYSE:BX) today reported its fourth quarter and full year 2025 results. Stephen A. Schwarzman, Chairman and CEO, said, 'Blackstone's extraordinary fourth-quarter results capped a record year for the firm. We delivered again for our limited partners, leading to $71 billion of inflows in the quarter...'"_
+
+**BX — 2025-11-03 (Senior Notes)**
+> _"Blackstone Completes Senior Notes Offering. Blackstone (NYSE: BX) announced the completion of the offering of $600 million of 4.300% senior notes due 2030 and $600 million of 4.950% senior notes due 2036..."_
+
+**KKR — 2026-02-05 (Q4 2025 Earnings)**
+> _"KKR & Co. Inc. Reports Fourth Quarter 2025 Financial Results. 2025 was a strong year for KKR with record annual figures across key metrics, including Fee Related Earnings, Adjusted Net Income per share, capital raised and capital invested..."_
+
+**KKR — 2026-02-05 (Arctos Acquisition)**
+> _"KKR to Acquire Arctos, Establishing a New Platform for Sports, GP Solutions and Secondaries in a Strategic Transaction Initially Valued at $1.4 Billion. Transaction expected to be accretive per share across key financial metrics immediately post-closing..."_
+
+Full example data files are committed to the repo under `examples/data/`:
+- `news_articles.json` — 30 real articles with NER annotations
+- `edgar_filings.json` — 4 real 8-K filings (BX + KKR)
+- `top_entities.json` — top 20 named entities by mention count
+
+### LLM Structured Extract (Mistral-7B · requires `HF_TOKEN`)
+
 ```json
 {
   "fund_or_entity_name": "Blackstone Real Estate Partners X",
@@ -162,11 +210,12 @@ All others via Yahoo Finance news (ticker symbol). CIK auto-lookup for unknown t
   "key_risks": ["rising interest rates", "reduced LP allocations"],
   "key_opportunities": ["infrastructure buildout", "data center demand"],
   "overall_sentiment": "cautious",
-  "investment_summary": "Blackstone's RE portfolio shows resilient performance..."
+  "investment_summary": "Blackstone's RE portfolio shows resilient performance despite rate headwinds."
 }
 ```
 
-**Investment Briefing (LLM-generated):**
+### Investment Briefing (LLM-generated · requires `HF_TOKEN`)
+
 > _"News sentiment for BX is cautiously positive (54% positive, 28% negative across 14 articles), driven by strong infrastructure fundraising and data centre deal flow. Key risk remains rate sensitivity in the core real estate portfolio with 3 articles flagging elevated vacancy in European office. Recommend monitoring Q4 deployment activity and LP re-up rates ahead of earnings."_
 
 ---
@@ -176,11 +225,17 @@ All others via Yahoo Finance news (ticker symbol). CIK auto-lookup for unknown t
 ### Run tests
 
 ```bash
-pytest                                        # all 46 tests, no model loading, no network
-pytest --cov=src --cov-report=term-missing    # with coverage
+# Unit tests (offline, no network, ~7 s)
+pytest -m "not integration"
+
+# Integration tests (live yfinance + EDGAR, ~60 s)
+pytest -m integration -v
+
+# All tests + coverage
+pytest --cov=src --cov-report=term-missing
 ```
 
-All tests run **offline** (yfinance and FinBERT are mocked).
+Unit tests run **fully offline** (all HTTP mocked). Integration tests hit live SEC EDGAR and Yahoo Finance and assert on real content quality — including a dedicated guard against XBRL garbage in filing text.
 
 To regenerate the dashboard screenshots from mock data:
 
@@ -214,7 +269,15 @@ finbert-news-sentiment/
 │   ├── test_sentiment.py
 │   ├── test_fetcher.py
 │   ├── test_edgar.py
-│   └── test_extractor.py
+│   ├── test_extractor.py
+│   └── test_integration.py  # 14 live-network tests (pytest -m integration)
+├── examples/
+│   ├── fetch_real_data.py   # Fetch + save real data from yfinance + EDGAR
+│   └── data/
+│       ├── news_articles.json   # 30 real articles with NER annotations
+│       ├── edgar_filings.json   # 4 real 8-K filings (BX + KKR)
+│       ├── news_articles.csv
+│       └── top_entities.json    # Top 20 NER entities by mention count
 ├── scripts/
 │   └── generate_screenshots.py  # Regenerate docs/screenshots from mock data
 ├── docs/

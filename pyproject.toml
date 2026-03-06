@@ -33,6 +33,9 @@ include = ["src*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-v --tb=short"
+markers = [
+    "integration: marks tests that require live network access (deselect with -m 'not integration')",
+]
 
 [tool.coverage.run]
 source = ["src"]
