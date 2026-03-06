@@ -121,7 +121,7 @@ No API key, no cloud service, no cost.
 | Task | Model | Backend | Cost |
 |---|---|---|---|
 | Sentiment | [ProsusAI/FinBERT](https://huggingface.co/ProsusAI/finbert) | HuggingFace Inference API | Free tier |
-| Structured Extraction | [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) | HuggingFace Inference API | Free tier |
+| Structured Extraction | [Qwen/Qwen2.5-72B-Instruct](https://huggingface.co/Qwen/Qwen2.5-72B-Instruct) | HuggingFace Inference API | Free tier |
 | NER | spaCy `en_core_web_sm` | Local (~12 MB) | Free |
 | News | Yahoo Finance | yfinance | Free |
 | Filings | SEC EDGAR | `data.sec.gov` public API | Free |
@@ -194,29 +194,54 @@ Full example data files are committed to the repo under `examples/data/`:
 - `edgar_filings.json` — 4 real 8-K filings (BX + KKR)
 - `top_entities.json` — top 20 named entities by mention count
 
-### LLM Structured Extract (Mistral-7B · requires `HF_TOKEN`)
+### LLM Structured Extract — real output (Qwen2.5-72B · `examples/data/llm_extractions.json`)
 
+**BX — Q4 2025 Earnings (2026-01-29)**
 ```json
 {
-  "fund_or_entity_name": "Blackstone Real Estate Partners X",
-  "strategy": "Real Estate",
+  "fund_or_entity_name": "Blackstone",
   "geography": "Global",
-  "aum_bn_usd": 180.5,
-  "net_irr_pct": 19.2,
-  "tvpi": 1.65,
-  "dpi": 0.82,
-  "deployment_pace": "stable",
-  "exit_environment": "mixed",
-  "key_risks": ["rising interest rates", "reduced LP allocations"],
-  "key_opportunities": ["infrastructure buildout", "data center demand"],
-  "overall_sentiment": "cautious",
-  "investment_summary": "Blackstone's RE portfolio shows resilient performance despite rate headwinds."
+  "aum_bn_usd": 1300.0,
+  "overall_sentiment": "positive",
+  "investment_summary": "Blackstone's strong performance in Q4 2025, with record inflows and a focus on large-scale investments in digital and energy infrastructure, positions it well for continued growth."
 }
 ```
 
-### Investment Briefing (LLM-generated · requires `HF_TOKEN`)
+**KKR — Arctos Acquisition (2026-02-05)**
+```json
+{
+  "fund_or_entity_name": "Arctos Partners",
+  "strategy": "Other",
+  "geography": "North America",
+  "aum_bn_usd": 15.0,
+  "vintage_year": 2019,
+  "overall_sentiment": "positive",
+  "key_opportunities": [
+    "Better serve the sports industry and the sponsor community",
+    "Access to strategic, financial and operational resources to accelerate existing businesses",
+    "Leverage KKR's broad range of products and capabilities"
+  ],
+  "investment_summary": "Arctos Partners, a leader in sports franchise investments and GP solutions, is being acquired by KKR, enhancing its capabilities and positioning for growth."
+}
+```
 
-> _"News sentiment for BX is cautiously positive (54% positive, 28% negative across 14 articles), driven by strong infrastructure fundraising and data centre deal flow. Key risk remains rate sensitivity in the core real estate portfolio with 3 articles flagging elevated vacancy in European office. Recommend monitoring Q4 deployment activity and LP re-up rates ahead of earnings."_
+### Investment Briefing — real output (Qwen2.5-72B · `examples/data/investment_briefings.json`)
+
+**BX:**
+> _"The overall sentiment for Blackstone (BX) is decidedly negative, as evidenced by multiple headlines highlighting issues such as redemptions testing liquidity, shares trading below fair value, and significant price slides, which overshadow the few neutral updates on sector performance and leadership actions. A key risk identified is the potential for further liquidity constraints and valuation pressures in BX's private credit and real estate portfolios, particularly given the company's recent challenges in Asia and ongoing market skepticism. It is recommended to closely monitor BX's quarterly earnings reports and any updates on redemption activities, as well as to assess the broader implications of these risks on the alternative asset management sector."_
+
+**KKR:**
+> _"The overall sentiment for KKR is mixed, leaning slightly negative, as evidenced by a higher proportion of negative headlines, including concerns over technical inflection points in private-credit stocks and record redemptions in Blackstone's private credit fund, which may reflect broader industry challenges. A key opportunity lies in the positive outlook from RBC Capital's initiation of coverage with an outperform call, suggesting potential upside despite current market skepticism. It is recommended to closely monitor KKR's performance in private credit and any further insider buying activity, as these factors could provide early signals of recovery or continued distress."_
+
+### FinBERT Sentiment — real output (`examples/data/news_articles_scored.json`)
+
+```
+[NEGATIVE  2%p] Blackstone Redemptions Test Liquidity As Shares Trade Below Fair Value
+[NEGATIVE  1%p] Is Blackstone (BX) Now At A Reasonable Price After Recent Share Price Slide
+[NEUTRAL  23%p] Is There Opportunity in Private Credit Stocks or Still Too Much Risk?
+[NEGATIVE  1%p] Blue Owl Stock Has Plunged on Private Credit Fears
+[NEUTRAL   5%p] KKR Co-CEOs Keep Buying the Stock Dip
+```
 
 ---
 
@@ -274,10 +299,13 @@ finbert-news-sentiment/
 ├── examples/
 │   ├── fetch_real_data.py   # Fetch + save real data from yfinance + EDGAR
 │   └── data/
-│       ├── news_articles.json   # 30 real articles with NER annotations
-│       ├── edgar_filings.json   # 4 real 8-K filings (BX + KKR)
+│       ├── news_articles.json          # 30 real articles with NER annotations
+│       ├── news_articles_scored.json   # same + FinBERT sentiment scores (live)
+│       ├── edgar_filings.json          # 4 real 8-K filings (BX + KKR)
+│       ├── llm_extractions.json        # Qwen2.5-72B structured extracts (live)
+│       ├── investment_briefings.json   # Qwen2.5-72B PM briefings per ticker (live)
 │       ├── news_articles.csv
-│       └── top_entities.json    # Top 20 NER entities by mention count
+│       └── top_entities.json           # Top 20 NER entities by mention count
 ├── scripts/
 │   └── generate_screenshots.py  # Regenerate docs/screenshots from mock data
 ├── docs/

@@ -19,7 +19,10 @@ def _make_extractor(mock_response: str) -> LLMExtractor:
     """Return an LLMExtractor with a mocked InferenceClient."""
     extractor = LLMExtractor.__new__(LLMExtractor)
     mock_client = MagicMock()
-    mock_client.text_generation.return_value = mock_response
+    # Simulate: client.chat.completions.create(...).choices[0].message.content
+    mock_choice = MagicMock()
+    mock_choice.message.content = mock_response
+    mock_client.chat.completions.create.return_value.choices = [mock_choice]
     extractor._client = mock_client
     extractor._model = "mock-model"
     return extractor
@@ -122,7 +125,7 @@ class TestLLMExtractorExtract:
     def test_extract_inference_failure_returns_empty(self):
         extractor = LLMExtractor.__new__(LLMExtractor)
         mock_client = MagicMock()
-        mock_client.text_generation.side_effect = RuntimeError("API error")
+        mock_client.chat.completions.create.side_effect = RuntimeError("API error")
         extractor._client = mock_client
         extractor._model = "mock-model"
 
@@ -131,8 +134,11 @@ class TestLLMExtractorExtract:
         assert "API error" in (result.raw_llm_response or "")
 
     def test_missing_token_raises(self):
-        with pytest.raises(ValueError, match="HuggingFace token"):
-            LLMExtractor(api_key="")
+        import os
+        from unittest.mock import patch
+        with patch.dict(os.environ, {"HF_TOKEN": ""}):
+            with pytest.raises(ValueError, match="HuggingFace token"):
+                LLMExtractor(api_key="")
 
     def test_extract_filing_annotates_filing(self):
         extractor = _make_extractor(VALID_JSON_RESPONSE)
@@ -172,11 +178,13 @@ class TestLLMExtractorSummary:
     def test_summary_called_with_articles(self):
         extractor = LLMExtractor.__new__(LLMExtractor)
         mock_client = MagicMock()
-        mock_client.text_generation.return_value = (
+        mock_choice = MagicMock()
+        mock_choice.message.content = (
             "Blackstone shows positive near-term momentum driven by strong infrastructure "
             "deal flow. Key risk: rate sensitivity in RE portfolio. Recommend monitoring "
             "Q4 deployment figures."
         )
+        mock_client.chat.completions.create.return_value.choices = [mock_choice]
         extractor._client = mock_client
         extractor._model = "mock-model"
 
@@ -189,7 +197,7 @@ class TestLLMExtractorSummary:
         summary = extractor.investment_summary("BX", articles, "Blackstone Inc.")
         assert isinstance(summary, str)
         assert len(summary) > 20
-        mock_client.text_generation.assert_called_once()
+        mock_client.chat.completions.create.assert_called_once()
 
     def test_summary_no_articles_returns_default(self):
         extractor = _make_extractor("")

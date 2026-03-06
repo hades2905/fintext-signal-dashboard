@@ -1,0 +1,106 @@
+[
+  {
+    "ticker": "BX",
+    "filed_at": "2026-01-29",
+    "accession_number": "0001193125-26-028145",
+    "extracted": {
+      "fund_or_entity_name": "Blackstone",
+      "strategy": null,
+      "geography": "Global",
+      "aum_bn_usd": 1300.0,
+      "net_irr_pct": null,
+      "gross_irr_pct": null,
+      "tvpi": null,
+      "dpi": null,
+      "rvpi": null,
+      "vintage_year": null,
+      "deployment_pace": null,
+      "exit_environment": null,
+      "fundraising_outlook": null,
+      "key_risks": [],
+      "key_opportunities": [],
+      "overall_sentiment": null,
+      "investment_summary": null
+    }
+  },
+  {
+    "ticker": "BX",
+    "filed_at": "2025-11-03",
+    "accession_number": "0001193125-25-262626",
+    "extracted": {
+      "fund_or_entity_name": "Blackstone",
+      "strategy": null,
+      "geography": null,
+      "aum_bn_usd": null,
+      "net_irr_pct": null,
+      "gross_irr_pct": null,
+      "tvpi": null,
+      "dpi": null,
+      "rvpi": null,
+      "vintage_year": null,
+      "deployment_pace": null,
+      "exit_environment": null,
+      "fundraising_outlook": null,
+      "key_risks": [],
+      "key_opportunities": [],
+      "overall_sentiment": null,
+      "investment_summary": null
+    }
+  },
+  {
+    "ticker": "KKR",
+    "filed_at": "2026-02-05",
+    "accession_number": "0001404912-26-000002",
+    "extracted": {
+      "fund_or_entity_name": "KKR & Co. Inc.",
+      "strategy": null,
+      "geography": "Global",
+      "aum_bn_usd": null,
+      "net_irr_pct": null,
+      "gross_irr_pct": null,
+      "tvpi": null,
+      "dpi": null,
+      "rvpi": null,
+      "vintage_year": null,
+      "deployment_pace": null,
+      "exit_environment": null,
+      "fundraising_outlook": null,
+      "key_risks": [],
+      "key_opportunities": [
+        "sports investing",
+        "capital solutions for asset managers",
+        "secondaries"
+      ],
+      "overall_sentiment": "positive",
+      "investment_summary": "KKR reported strong annual figures across key metrics in 2025, with significant opportunities identified in sports investing, capital solutions, and secondaries. The acquisition of Arctos Partners further strengthens their position in these areas."
+    }
+  },
+  {
+    "ticker": "KKR",
+    "filed_at": "2026-02-05",
+    "accession_number": "0001140361-26-003765",
+    "extracted": {
+      "fund_or_entity_name": "Arctos Partners",
+      "strategy": "Other",
+      "geography": "North America",
+      "aum_bn_usd": 15.0,
+      "net_irr_pct": null,
+      "gross_irr_pct": null,
+      "tvpi": null,
+      "dpi": null,
+      "rvpi": null,
+      "vintage_year": 2019,
+      "deployment_pace": null,
+      "exit_environment": null,
+      "fundraising_outlook": null,
+      "key_risks": [],
+      "key_opportunities": [
+        "Better serve the sports industry and the sponsor community",
+        "Access to strategic, financial and operational resources to accelerate existing businesses",
+        "Leverage KKR\u2019s broad range of products and capabilities"
+      ],
+      "overall_sentiment": "positive",
+      "investment_summary": "Arctos Partners, a leader in sports franchise investments and GP solutions, is being acquired by KKR, enhancing its capabilities and positioning for growth. This strategic move leverages KKR's resources to expand Arctos' impact in the sports and asset management sectors."
+    }
+  }
+]

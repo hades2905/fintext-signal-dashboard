@@ -1,9 +1,8 @@
 """
 LLM-based structured data extraction from financial filings and fund letters.
 
-Uses a chat-capable model (e.g. mistralai/Mistral-7B-Instruct-v0.3 or
-meta-llama/Meta-Llama-3-8B-Instruct via HuggingFace Inference API) to convert
-unstructured financial text into machine-readable JSON.
+Uses a chat-capable model (Qwen/Qwen2.5-72B-Instruct via HuggingFace Inference API)
+to convert unstructured financial text into machine-readable JSON.
 
 This is the core differentiator for alternative assets analysis:
   unstructured text  →  structured StructuredExtract  →  dashboard / database
@@ -22,14 +21,12 @@ from .schemas import Article, EdgarFiling, SentimentLabel, SentimentScore, Struc
 
 logger = logging.getLogger(__name__)
 
-# Default to a strong instruction-following model available on HF free tier
-DEFAULT_MODEL = "mistralai/Mistral-7B-Instruct-v0.3"
+# Qwen2.5-72B supports chat.completions on HF Serverless Inference (free tier)
+DEFAULT_MODEL = "Qwen/Qwen2.5-72B-Instruct"
 MAX_INPUT_CHARS = 6_000  # cap to stay within context window
 
 _EXTRACTION_PROMPT = """\
-You are a senior investment analyst at a global reinsurance company specializing in alternative assets (Private Equity, Infrastructure, Real Assets, Private Credit).
-
-Your task: read the financial text below and extract key data points as a JSON object.
+Read the financial text below and extract key data points as a JSON object.
 
 Return ONLY valid JSON – no prose, no markdown, no explanation.
 If a field cannot be determined from the text, use null.
@@ -95,8 +92,9 @@ class LLMExtractor:
                 "A HuggingFace token is required. "
                 "Set HF_TOKEN env var or pass api_key=... to LLMExtractor()."
             )
-        self._client = InferenceClient(provider="hf-inference", api_key=token)
+        self._token = token
         self._model = model
+        self._client = InferenceClient(model=self._model, token=token)
 
     def extract(self, text: str) -> StructuredExtract:
         """
@@ -106,19 +104,30 @@ class LLMExtractor:
         Falls back to an empty extract if the LLM returns unparseable output.
         """
         truncated = text[: MAX_INPUT_CHARS]
-        prompt = _EXTRACTION_PROMPT.format(text=truncated)
 
         raw_response = ""
         try:
-            response = self._client.text_generation(
-                prompt,
-                model=self._model,
-                max_new_tokens=800,
-                temperature=0.1,  # low temperature for structured output
-                do_sample=False,
-                stop_sequences=["---", "\n\nFinancial text"],
+            response = self._client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are a senior investment analyst at a global reinsurance company "
+                            "specialising in alternative assets (PE, Infrastructure, Real Assets, "
+                            "Private Credit). Return ONLY valid JSON – no prose, no markdown, "
+                            "no explanation."
+                        ),
+                    },
+                    {
+                        "role": "user",
+                        "content": _EXTRACTION_PROMPT.format(text=truncated),
+                    },
+                ],
+                max_tokens=900,
+                temperature=0.1,
+                stream=False,
             )
-            raw_response = response if isinstance(response, str) else str(response)
+            raw_response = response.choices[0].message.content or ""
         except Exception as exc:
             logger.error("LLM inference failed: %s", exc)
             return StructuredExtract(raw_llm_response=str(exc))
@@ -207,14 +216,22 @@ Be direct, professional, and specific. No bullet points – flowing sentences on
 Investment briefing:"""
 
         try:
-            response = self._client.text_generation(
-                prompt,
-                model=self._model,
-                max_new_tokens=250,
+            response = self._client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are a senior investment analyst writing concise briefings "
+                            "for portfolio managers at a global asset manager."
+                        ),
+                    },
+                    {"role": "user", "content": prompt},
+                ],
+                max_tokens=280,
                 temperature=0.3,
-                do_sample=True,
+                stream=False,
             )
-            return (response if isinstance(response, str) else str(response)).strip()
+            return (response.choices[0].message.content or "").strip()
         except Exception as exc:
             logger.error("Investment summary generation failed: %s", exc)
             return f"Summary unavailable: {exc}"
