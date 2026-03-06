@@ -20,16 +20,6 @@
     "mentions": 3
   },
   {
-    "entity": "Blue Owl Stock Has Plunged",
-    "label": "ORG",
-    "mentions": 2
-  },
-  {
-    "entity": "Private Credit Fears",
-    "label": "ORG",
-    "mentions": 2
-  },
-  {
     "entity": "Blue Owl Capital",
     "label": "ORG",
     "mentions": 2
@@ -51,11 +41,6 @@
   },
   {
     "entity": "KKR Co-CEOs",
-    "label": "ORG",
-    "mentions": 2
-  },
-  {
-    "entity": "Keep Buying the Stock Dip",
     "label": "ORG",
     "mentions": 2
   },
@@ -87,16 +72,6 @@
   {
     "entity": "$2 million",
     "label": "MONEY",
-    "mentions": 2
-  },
-  {
-    "entity": "Talks With New World Development",
-    "label": "ORG",
-    "mentions": 2
-  },
-  {
-    "entity": "Private-Credit Stocks Approach Technical Inflection Points Publicly",
-    "label": "ORG",
     "mentions": 2
   }
 ]
