@@ -13,11 +13,10 @@ import json
 import logging
 import os
 import re
-from typing import Optional
 
 from huggingface_hub import InferenceClient
 
-from .schemas import Article, EdgarFiling, SentimentLabel, SentimentScore, StructuredExtract
+from .schemas import Article, EdgarFiling, SentimentLabel, StructuredExtract
 
 logger = logging.getLogger(__name__)
 
@@ -71,7 +70,7 @@ class LLMExtractor:
     api_key:
         HuggingFace token. Falls back to the ``HF_TOKEN`` environment variable.
     model:
-        HuggingFace model ID. Defaults to Mistral-7B-Instruct.
+        HuggingFace model ID. Defaults to Qwen2.5-72B-Instruct.
 
     Usage
     -----
@@ -138,16 +137,10 @@ class LLMExtractor:
 
     def extract_articles(self, articles: list[Article]) -> list[Article]:
         """
-        Generate an investment summary for a list of articles (aggregated view).
-        Stores result in article.sentiment as a best-effort approach.
-        Returns the same list.
+        Placeholder for article-level LLM enrichment.
+        For aggregated investment briefings use investment_summary() instead.
+        Returns the same list unchanged.
         """
-        # For news articles, we do sentiment enrichment with context
-        combined = "\n\n".join(
-            f"[{a.source or 'Unknown'} | {a.published_at.date() if a.published_at else 'n/a'}] "
-            f"{a.title}: {a.text[:400]}"
-            for a in articles[:15]
-        )
         return articles
 
     def extract_filing(self, filing: EdgarFiling) -> EdgarFiling:

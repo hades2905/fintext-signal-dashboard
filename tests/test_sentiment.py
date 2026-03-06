@@ -113,7 +113,6 @@ class TestSentimentAnalyser:
 
     def test_missing_token_raises(self):
         import os
-        from unittest.mock import patch
         with patch.dict(os.environ, {}, clear=True):
             # ensure HF_TOKEN is not set
             os.environ.pop("HF_TOKEN", None)

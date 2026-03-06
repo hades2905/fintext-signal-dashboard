@@ -135,7 +135,6 @@ class TestLLMExtractorExtract:
 
     def test_missing_token_raises(self):
         import os
-        from unittest.mock import patch
         with patch.dict(os.environ, {"HF_TOKEN": ""}):
             with pytest.raises(ValueError, match="HuggingFace token"):
                 LLMExtractor(api_key="")
@@ -188,7 +187,7 @@ class TestLLMExtractorSummary:
         extractor._client = mock_client
         extractor._model = "mock-model"
 
-        from src.nlp.schemas import SentimentLabel, SentimentScore
+        from src.nlp.schemas import SentimentScore
         _score = SentimentScore(label="positive", positive=0.85, negative=0.08, neutral=0.07)
         articles = [
             Article(ticker="BX", title="Blackstone raises record fund", text="...", sentiment=_score),

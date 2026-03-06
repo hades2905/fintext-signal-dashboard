@@ -15,7 +15,6 @@ import re
 import time
 from datetime import datetime, timezone
 from html import unescape
-from typing import Optional
 
 import requests
 
@@ -47,7 +46,7 @@ KNOWN_CIKS: dict[str, str] = {
 _SLEEP = 0.15  # seconds between requests – stay within 10 req/s
 
 
-def _cik_for_ticker(ticker: str) -> Optional[str]:
+def _cik_for_ticker(ticker: str) -> str | None:
     """Resolve ticker → zero-padded CIK via EDGAR company search."""
     if ticker.upper() in KNOWN_CIKS:
         return KNOWN_CIKS[ticker.upper()]
@@ -169,7 +168,7 @@ def fetch_filings(
     descriptions = filings_data.get("primaryDocument", [])
 
     results: list[EdgarFiling] = []
-    for form, acc, filed, _doc in zip(forms, accessions, filed_dates, descriptions):
+    for form, acc, filed, _doc in zip(forms, accessions, filed_dates, descriptions, strict=False):
         if len(results) >= max_filings:
             break
         if form != form_type:

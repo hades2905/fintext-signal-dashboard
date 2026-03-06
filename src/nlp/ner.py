@@ -28,10 +28,10 @@ RELEVANT_LABELS = {"ORG", "PERSON", "GPE", "LOC", "PRODUCT", "MONEY", "PERCENT",
 def _load_model() -> Language:
     try:
         return spacy.load("en_core_web_sm")
-    except OSError:
+    except OSError as err:
         raise OSError(
             "spaCy model not found. Run: python -m spacy download en_core_web_sm"
-        )
+        ) from err
 
 
 def extract_entities(text: str) -> list[Entity]:

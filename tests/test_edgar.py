@@ -3,13 +3,10 @@ Tests for the SEC EDGAR fetcher – all HTTP calls are mocked.
 """
 from __future__ import annotations
 
-import json
-from datetime import datetime, timezone
+from datetime import datetime
 from unittest.mock import MagicMock, patch
 
-import pytest
-
-from src.nlp.edgar import KNOWN_CIKS, fetch_filings, _cik_for_ticker
+from src.nlp.edgar import KNOWN_CIKS, fetch_filings
 from src.nlp.schemas import EdgarFiling, FilingType
 
 

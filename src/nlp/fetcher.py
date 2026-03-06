@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime, timezone
-from typing import Optional
 
 import yfinance as yf
 
@@ -53,7 +52,7 @@ def fetch_news(ticker: str, max_articles: int = 20) -> list[Article]:
 
             # Published timestamp
             pub_ts = content.get("pubDate") or item.get("providerPublishTime")
-            published_at: Optional[datetime] = None
+            published_at: datetime | None = None
             if isinstance(pub_ts, (int, float)):
                 published_at = datetime.fromtimestamp(pub_ts, tz=timezone.utc)
             elif isinstance(pub_ts, str):

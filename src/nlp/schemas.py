@@ -5,7 +5,6 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -32,10 +31,10 @@ class Article(BaseModel):
     ticker: str
     title: str
     text: str
-    url: Optional[str] = None
-    published_at: Optional[datetime] = None
-    source: Optional[str] = None
-    sentiment: Optional[SentimentScore] = None
+    url: str | None = None
+    published_at: datetime | None = None
+    source: str | None = None
+    sentiment: SentimentScore | None = None
     entities: list[Entity] = Field(default_factory=list)
 
 
@@ -56,13 +55,13 @@ class EdgarFiling(BaseModel):
     company_name: str
     cik: str
     form_type: FilingType
-    filed_at: Optional[datetime] = None
+    filed_at: datetime | None = None
     accession_number: str
     text: str
-    url: Optional[str] = None
-    sentiment: Optional[SentimentScore] = None
+    url: str | None = None
+    sentiment: SentimentScore | None = None
     entities: list[Entity] = Field(default_factory=list)
-    extracted: Optional["StructuredExtract"] = None
+    extracted: StructuredExtract | None = None
 
 
 class StructuredExtract(BaseModel):
@@ -70,24 +69,24 @@ class StructuredExtract(BaseModel):
     LLM-extracted structured data from a financial filing or fund letter.
     Fields are Optional – the LLM will only populate what it can find.
     """
-    fund_or_entity_name: Optional[str] = None
-    strategy: Optional[str] = None          # Buyout, Credit, Real Estate, Infra, ...
-    geography: Optional[str] = None
-    aum_bn_usd: Optional[float] = None      # AUM in billion USD
-    net_irr_pct: Optional[float] = None     # Net IRR in %
-    gross_irr_pct: Optional[float] = None
-    tvpi: Optional[float] = None            # Total Value to Paid-In
-    dpi: Optional[float] = None             # Distributions to Paid-In
-    rvpi: Optional[float] = None            # Residual Value to Paid-In
-    vintage_year: Optional[int] = None
-    deployment_pace: Optional[str] = None   # "accelerating" | "slowing" | "stable"
-    exit_environment: Optional[str] = None  # "favorable" | "challenging" | "mixed"
-    fundraising_outlook: Optional[str] = None
+    fund_or_entity_name: str | None = None
+    strategy: str | None = None          # Buyout, Credit, Real Estate, Infra, ...
+    geography: str | None = None
+    aum_bn_usd: float | None = None      # AUM in billion USD
+    net_irr_pct: float | None = None     # Net IRR in %
+    gross_irr_pct: float | None = None
+    tvpi: float | None = None            # Total Value to Paid-In
+    dpi: float | None = None             # Distributions to Paid-In
+    rvpi: float | None = None            # Residual Value to Paid-In
+    vintage_year: int | None = None
+    deployment_pace: str | None = None   # "accelerating" | "slowing" | "stable"
+    exit_environment: str | None = None  # "favorable" | "challenging" | "mixed"
+    fundraising_outlook: str | None = None
     key_risks: list[str] = Field(default_factory=list)
     key_opportunities: list[str] = Field(default_factory=list)
-    overall_sentiment: Optional[str] = None  # "positive" | "cautious" | "negative"
-    investment_summary: Optional[str] = None  # 2-3 sentence LLM narrative
-    raw_llm_response: Optional[str] = None
+    overall_sentiment: str | None = None  # "positive" | "cautious" | "negative"
+    investment_summary: str | None = None  # 2-3 sentence LLM narrative
+    raw_llm_response: str | None = None
 
 
 EdgarFiling.model_rebuild()

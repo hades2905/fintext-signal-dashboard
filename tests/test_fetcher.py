@@ -3,13 +3,10 @@ Tests for news fetcher – yfinance is mocked.
 """
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 from src.nlp.fetcher import fetch_news
-from src.nlp.schemas import Article
 
 # ---------------------------------------------------------------------------
 # Realistic mock yfinance news payload (new format)

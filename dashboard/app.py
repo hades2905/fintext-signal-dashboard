@@ -63,7 +63,7 @@ with st.sidebar:
     st.markdown(
         "**Models**\n\n"
         "- Sentiment: [ProsusAI/FinBERT](https://huggingface.co/ProsusAI/finbert)\n"
-        "- Extraction: [Mistral-7B-Instruct](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3)\n"
+        "- Extraction: [Qwen2.5-72B-Instruct](https://huggingface.co/Qwen/Qwen2.5-72B-Instruct)\n"
         "- NER: spaCy `en_core_web_sm`\n"
         "- Filings: SEC EDGAR (no key)\n"
         "- News: Yahoo Finance (no key)\n\n"
@@ -326,7 +326,7 @@ with tab2:
     st.header("SEC EDGAR Filing Analysis")
     st.caption(
         "Fetch real 8-K / 10-K filings from SEC EDGAR and extract structured "
-        "investment data (IRR, AUM, TVPI, DPI, Risks…) using a Mistral-7B LLM."
+        "investment data (IRR, AUM, TVPI, DPI, Risks\u2026) using Qwen2.5-72B-Instruct."
     )
 
     col_e1, col_e2, col_e3 = st.columns([2, 1, 1])
