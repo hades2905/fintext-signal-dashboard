@@ -13,7 +13,7 @@ Originally designed as a demonstration of applied NLP for the Munich Re GIM Alte
 | Feature | Description |
 |---|---|
 | **News Sentiment** | FinBERT classifies live Yahoo Finance news per ticker; spaCy NER extracts entities |
-| **LLM Investment Briefing** | Mistral-7B generates a 3-sentence portfolio-manager brief from headlines |
+| **LLM Investment Briefing** | Qwen2.5-72B generates a 3-sentence portfolio-manager brief from headlines |
 | **SEC EDGAR Filing Ingest** | Fetches real 8-K / 10-K from `data.sec.gov` — no API key required |
 | **LLM Structured Extraction** | Extracts IRR, AUM, TVPI, DPI, key risks & opportunities as typed JSON from free text |
 | **Portfolio Monitor** | Batch-scan multiple tickers; colour-coded heatmap of sentiment across holdings |
@@ -69,7 +69,7 @@ Yahoo Finance (yfinance)          SEC EDGAR (data.sec.gov)
           ▼                                ▼
  ┌──────────────────────────┐    ┌──────────────────────────────┐
  │  sentiment.py            │    │  extractor.py – LLMExtractor  │
- │  ProsusAI/FinBERT        │    │  Mistral-7B-Instruct          │
+ │  ProsusAI/FinBERT        │    │  Qwen2.5-72B-Instruct         │
  │  → pos / neg / neutral   │    │  → StructuredExtract (JSON)   │
  │    + confidence scores   │    │    IRR · AUM · TVPI · DPI     │
  └────────┬─────────────────┘    │    risks · opportunities      │
@@ -96,8 +96,8 @@ Yahoo Finance (yfinance)          SEC EDGAR (data.sec.gov)
 
 ```bash
 # 1. Clone
-git clone https://github.com/<you>/finbert-news-sentiment
-cd finbert-news-sentiment
+git clone https://github.com/hades2905/fintext-signal-dashboard
+cd fintext-signal-dashboard
 
 # 2. Create virtual environment
 python -m venv .venv && source .venv/bin/activate
@@ -108,11 +108,14 @@ pip install -r requirements.txt
 # 4. Download spaCy model
 python -m spacy download en_core_web_sm
 
-# 5. Run dashboard (FinBERT downloads ~450 MB on first run)
+# 5. Set your free HuggingFace token (https://huggingface.co/settings/tokens)
+export HF_TOKEN=hf_...
+
+# 6. Run dashboard
 streamlit run dashboard/app.py
 ```
 
-No API key, no cloud service, no cost.
+All data sources (Yahoo Finance, SEC EDGAR) are free with no API key. Only the LLM calls (FinBERT + Qwen2.5-72B) require a free HuggingFace token — no billing, no GPU.
 
 ---
 
@@ -126,7 +129,7 @@ No API key, no cloud service, no cost.
 | News | Yahoo Finance | yfinance | Free |
 | Filings | SEC EDGAR | `data.sec.gov` public API | Free |
 
-FinBERT is fine-tuned on 10,000 financial sentences and significantly outperforms generic BERT on financial text. Mistral-7B extracts fund-level KPIs (IRR, AUM, TVPI, DPI) and qualitative signals from unstructured filing text. No local GPU or model download required.
+FinBERT is fine-tuned on 10,000 financial sentences and significantly outperforms generic BERT on financial text. Qwen2.5-72B-Instruct extracts fund-level KPIs (IRR, AUM, TVPI, DPI) and qualitative signals from unstructured filing text via `chat.completions` — no local GPU or model download required.
 
 ---
 
@@ -191,7 +194,10 @@ python examples/fetch_real_data.py
 
 Full example data files are committed to the repo under `examples/data/`:
 - `news_articles.json` — 30 real articles with NER annotations
-- `edgar_filings.json` — 4 real 8-K filings (BX + KKR)
+- `news_articles_scored.json` — same + FinBERT sentiment scores per article
+- `edgar_filings.json` — 4 real 8-K filings (BX + KKR) with press-release text
+- `llm_extractions.json` — Qwen2.5-72B structured extracts from each filing
+- `investment_briefings.json` — Qwen2.5-72B PM briefings for BX / KKR / APO
 - `top_entities.json` — top 20 named entities by mention count
 
 ### LLM Structured Extract — real output (Qwen2.5-72B · `examples/data/llm_extractions.json`)
@@ -262,7 +268,7 @@ pytest --cov=src --cov-report=term-missing
 
 Unit tests run **fully offline** (all HTTP mocked). Integration tests hit live SEC EDGAR and Yahoo Finance and assert on real content quality — including a dedicated guard against XBRL garbage in filing text.
 
-To regenerate the dashboard screenshots from mock data:
+To regenerate the dashboard screenshots from real example data:
 
 ```bash
 python scripts/generate_screenshots.py
@@ -285,7 +291,7 @@ finbert-news-sentiment/
 │   ├── fetcher.py      # Yahoo Finance news fetcher
 │   ├── edgar.py        # SEC EDGAR 8-K / 10-K fetcher (no API key)
 │   ├── sentiment.py    # SentimentAnalyser wrapping FinBERT
-│   ├── extractor.py    # LLMExtractor – structured JSON extraction via Mistral-7B
+│   └── extractor.py    # LLMExtractor – structured JSON extraction via Qwen2.5-72B
 │   └── ner.py          # Named Entity Recognition via spaCy
 ├── dashboard/
 │   └── app.py          # Streamlit app (3 tabs: News · EDGAR · Portfolio)
@@ -307,7 +313,7 @@ finbert-news-sentiment/
 │       ├── news_articles.csv
 │       └── top_entities.json           # Top 20 NER entities by mention count
 ├── scripts/
-│   └── generate_screenshots.py  # Regenerate docs/screenshots from mock data
+│   └── generate_screenshots.py  # Regenerate docs/screenshots from real example data
 ├── docs/
 │   └── screenshots/    # Static plot previews embedded in README
 ├── pyproject.toml
